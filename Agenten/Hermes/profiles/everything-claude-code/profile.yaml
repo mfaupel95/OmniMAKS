@@ -1,0 +1,12 @@
+description: 'Pflegt das everything-claude-code Repo: Doku, Plugins und Best Practices
+  fuer Claude Code.'
+description_auto: false
+ui_meta:
+  hermes-bots:
+    groups:
+      - Findusarbeitus, Basic Memory, Everything Claude Code, Gbrain, Ne
+    group: Findusarbeitus, Basic Memory, Everything Claude Code, Gbrain, Ne
+    sectionId: sec-mvic8zsw-093i3
+    sectionName: CLaude/Codex
+_ui_meta_revisions:
+  hermes-bots: 2
