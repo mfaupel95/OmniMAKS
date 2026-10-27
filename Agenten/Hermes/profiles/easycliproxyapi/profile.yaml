@@ -1,0 +1,13 @@
+description: 'Betreuer fuer router-for-me/EasyCLIProxyAPI - portable Desktop-Konsole
+  fuer CLIProxyAPI (Tauri/React/Rust): Kern starten/stoppen, OAuth-Anmeldungen, Anbieter
+  buendeln, lokale OpenAI-/Claude-/Gemini-Endpunkte'
+description_auto: false
+ui_meta:
+  hermes-bots:
+    groups:
+      - System
+    group: System
+    sectionId: sec-mvi9d2ej-7typq
+    sectionName: APPS
+_ui_meta_revisions:
+  hermes-bots: 2
