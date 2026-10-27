@@ -1,0 +1,1183 @@
+# Versionsverwaltung von BrainFiles - WHITELIST
+#
+# Dieses Repository sichert NICHT den Vault. Das tun sichern.ps1 (G:) und
+# sichern-zweitkopie.ps1 (O:). Es schliesst die eine Luecke, die alle drei
+# Kopien teilen: Sie halten nur den JETZIGEN Stand. Ein Fehler, der laenger als
+# bis 20:00 unbemerkt bleibt, steht danach in allen dreien. Git haelt die
+# Vorgeschichte - deshalb hier nur, was sich von Hand aendert und was weh taete,
+# wenn es still kaputtginge.
+#
+# Bewusst eine Whitelist: erst alles ignorieren, dann einzeln freigeben. Eine
+# Blacklist waere die falsche Richtung - sie nimmt jede neue Datei ungefragt
+# auf, und genau so landen 45 GB Medien oder ein Zugangsschluessel im Verlauf.
+#
+# Seit dem 30.08.2026 liegt die Wurzel eine Ebene hoeher: nicht mehr in
+# MaxHirn/, sondern in BrainFiles/. Jede Freigabe unten traegt deshalb den
+# Ordner im Pfad. Die vier Ordner haben je eine Aufgabe - MaxHirn/ Wissen,
+# Modelle/ Gewichte, Agenten/ was laeuft, Werkstatt/ gemeinsame Arbeit.
+
+# --- 1) Grundsatz: nichts ---------------------------------------------------
+*
+
+# --- 2) Ordner muessen begehbar sein ----------------------------------------
+# Ohne diese Zeile steigt Git an der ersten ignorierten Ebene aus und findet
+# nichts von dem, was unten freigegeben ist.
+!*/
+
+# Arbeitsbaeume paralleler Agenten (git worktree add .worktrees/<name>, siehe
+# CLAUDE.md, Abschnitt Zweige). Muss NACH '!*/' stehen: sonst macht diese Zeile
+# den Ordner wieder sichtbar und er erscheint als 'untracked'.
+.worktrees/
+
+# --- 3) Der Kopf des Systems ------------------------------------------------
+# Die beiden Git-Steuerdateien zuerst: ohne diese Freigabe faengt die Regel in
+# Zeile 24 sie selbst mit ein, und ausgerechnet die Regeln waeren nicht
+# versioniert. .gitattributes haelt die Zeilenenden auf LF (Portabilitaet.md).
+!/.gitignore
+!/.gitattributes
+# Die Karte der vier Ordner, in beiden Namen (Claude liest CLAUDE.md,
+# Hermes und Codex lesen AGENTS.md).
+!/*.md
+!MaxHirn/*.md
+!MaxHirn/Wissen/**/*.md
+# KB-Datenpipeline: Metriken-JSON (geschrieben von kb-metriken-sync.ps1,
+# gelesen vom Cloud-Agenten taeglich). Bewusst JSON, kein Markdown.
+!MaxHirn/Wissen/KB/data/*.json
+!MaxHirn/Wiki/**/*.md
+!MaxHirn/.claude/skills/**
+!MaxHirn/.claude/agents/**
+# Skills im Hermes-Format. Sie steuern Verhalten und haben keinen zweiten Ort:
+# sichern.ps1 und sichern-zweitkopie.ps1 halten nur den JETZIGEN Stand. Ein
+# falsch kalibrierter Waechter faellt nur auf, wenn die Vorgeschichte da ist.
+!MaxHirn/optional-skills/**
+# Sicherungskopien global installierter eigener Skills. Bewusst neben
+# skills/ statt darin: Claude Code laedt nur skills/, damit steht ein
+# Skill nicht doppelt in der Liste.
+!MaxHirn/.claude/skills-sicherung/**
+
+# --- 4) Das Archiv-Werkzeug (nicht das Archiv) ------------------------------
+# Archiv/ hiess bis zum 30.08.2026 Claude/ - benannt nach einem Modell, obwohl
+# alle Modelle darauf zugreifen. Die 45 GB darin sind weiter draussen.
+!MaxHirn/Archiv/*.md
+!MaxHirn/Archiv/ArchivSuche/*.py
+!MaxHirn/Archiv/ArchivSuche/*.md
+!MaxHirn/Archiv/ArchivSuche/requirements.txt
+!MaxHirn/Archiv/ArchivSuche/*.bat
+!MaxHirn/Archiv/ArchivSuche/static/**
+# Werkzeug der Aufgabenliste: prueft einen Routing-Plan gegen TASKS.md
+# (Kanban-Kette t_37ac8a78). Ohne Freigabe waere es unversioniert und die
+# Erkenntnis "ein Lesevorgang verliert die ASCII-Bindestrich-Punkte" waere
+# beim naechsten Update weg.
+!MaxHirn/Archiv/routing_plan_pruefen.py
+!MaxHirn/Archiv/tests/*.py
+
+# --- 5) Eigene Programme ----------------------------------------------------
+!Agenten/*.ps1
+!Agenten/Routinen/*.ps1
+!Agenten/Routinen/tests/*.ps1
+!Agenten/Routinen/umzug/*.ps1
+!Agenten/Routinen/umzug/*.psd1
+!Agenten/Routinen/umzug/*.txt
+# MOONDEV-GUI-AUTOSTART, freigelegt am 18.09.2026. Diese Verknuepfung ist der
+# Weg, der die MoonDev-GUI wirklich beim Anmelden startet (der Wrapper
+# moondev-gui.ps1 haengt daran, die geplante Aufgabe MaxHirn-MoonDev-GUI gibt
+# es nicht). Die Kopie im Startup-Ordner ist maschinengebunden - ohne diese
+# Zeile gaebe es von der Startverknuepfung keine Sicherung, und der Wrapper
+# verwiese auf eine Datei, die nur auf dieser Platte liegt. ACHTUNG: die
+# Verknuepfung traegt einen absoluten Pfad und muss nach einem Umzug neu
+# geschrieben werden - genau deshalb ist sie hier sichtbar und nicht versteckt.
+!Agenten/Routinen/moondev-gui-autostart.vbs
+!Agenten/Handel/*.py
+!Agenten/Handel/spur_opt.json
+!Agenten/Handel/leitstand_backtests.json
+# Basislinie des Testlaeufers (testlauf.py). Gehoert versioniert: ohne
+# sie weiss kein zweiter Rechner, welcher Stand "unveraendert" heisst,
+# und jeder Lauf meldete entweder alles oder nichts.
+!Agenten/Handel/testlauf_basis.json
+!Agenten/Handel/*.md
+# Laufzeitdaten: der Tagesschnappschuss. Abgeleitet, kein Buch.
+Agenten/Handel/stand/
+!Agenten/Handel/*.ps1
+!Agenten/Handel/REGELWERK-*.json
+!Agenten/Handel/hermes-omnitrade-config.json
+!Agenten/Handel/requirements.txt
+!Agenten/Handel/prognose.py
+!Agenten/Handel/prognose.json
+# Schattenarm 'weit' (24.09.2026): die weiche Fassung der Prognose-Tore.
+!Agenten/Handel/prognose.weit.json
+# Die Tests am Fuss von Handel/ (prognose) wie die der Spuren.
+!Agenten/Handel/tests/*.py
+!Agenten/Handel/scanner/*.py
+!Agenten/Handel/scanner/*.md
+!Agenten/Handel/scanner/*.json
+!Agenten/Handel/scanner/requirements.txt
+# Die Tests der Spur stehen unter scanner/tests/ wie bei orb und verbesserer.
+# Ohne diese Zeile faengt die Regel in Zeile 20 sie mit ein, und eine
+# Aenderung an der Live-Verdrahtung waere ohne ihren Nachweis im Verlauf.
+!Agenten/Handel/scanner/tests/*.py
+# scanner_quant (07.10.2026): Quant-Urteil + Scanner-Kopie. Nur Text und Tests;
+# berichte/ bleibt ausserhalb (Laufzeitstand).
+!Agenten/Handel/scanner_quant/
+!Agenten/Handel/scanner_quant/*.py
+!Agenten/Handel/scanner_quant/*.md
+!Agenten/Handel/scanner_quant/*.json
+!Agenten/Handel/scanner_quant/tests/
+!Agenten/Handel/scanner_quant/tests/*.py
+!Agenten/Handel/xperp/*.py
+!Agenten/Handel/xperp/*.md
+!Agenten/Handel/xperp/*.json
+!Agenten/Handel/xperp/tests/*.py
+!Agenten/Handel/agenten/
+!Agenten/Handel/agenten/*.md
+!Agenten/Handel/agenten/*.py
+!Agenten/Handel/aufgaben/
+!Agenten/Handel/aufgaben/*.md
+# Web-Dashboard (FastAPI/HTMX), Spec Werkstatt/spec-dashboard-web-2026-10-10.md
+!Agenten/Handel/dashboard/*.py
+!Agenten/Handel/dashboard/*.txt
+!Agenten/Handel/dashboard/*/*.py
+!Agenten/Handel/dashboard/templates/*.html
+!Agenten/Handel/dashboard/static/*.css
+!Agenten/Handel/tests/test_dashboard/*.py
+# Der OKX-Bot-Waechter ist ein WERKZEUG, kein Handelsbuch: Code, Wachen,
+# Doku und Tests gehoeren in den Verlauf. Zustand, Protokoll und Vorschlaege
+# bleiben draussen (Sperrliste unten) - ein Vorschlag traegt einen echten
+# Orderkoerper, ein Zustand ist Laufzeitstand.
+!Agenten/Handel/okx_bot_waechter/*.py
+!Agenten/Handel/okx_bot_waechter/*.md
+!Agenten/Handel/okx_bot_waechter/wachen.json
+!Agenten/Handel/okx_bot_waechter/tests/*.py
+# Dieselbe Falle wie bei scanner/tests (Zeile 20 faengt sonst mit ein):
+# die Tests der Spur brauchen eine EIGENE Freigabezeile.
+!Agenten/Handel/kraken/*.py
+!Agenten/Handel/kraken/*.md
+!Agenten/Handel/kraken/*.json
+# Die Kraken-Tests liegen seit dem 14.09.2026 unter kraken/tests/ - dieselbe
+# Falle wie bei scanner/tests: die Regel in Zeile 20 faengt sie sonst mit ein.
+!Agenten/Handel/kraken/tests/*.py
+
+# Freqtrade-Bots (Handel/freqtrade/). Der ORDNER bleibt gesperrt:
+# user_data/config.json traegt die Zugangsdaten der Weboberflaeche und
+# user_data/data/ die Kursreihen (viele MB). Freigegeben ist nur, was von Hand
+# geschrieben wurde und weh taete, wenn es still verschwaende - die Strategien
+# (echte Arbeit, lagen bis 30.09.2026 NIRGENDS im Verlauf), die Bot-Definitionen
+# und die Startskripte. Die Aufsaetze in user_data/bots/ tragen keine
+# Zugangsdaten: sie werden zusammen mit config.json geladen (Freqtrade mischt
+# mehrere --config tief ineinander).
+!Agenten/Handel/freqtrade/bots.json
+!Agenten/Handel/freqtrade/bots.py
+!Agenten/Handel/freqtrade/gleichheit.py
+!Agenten/Handel/freqtrade/walkforward.py
+!Agenten/Handel/freqtrade/bots_starten.sh
+!Agenten/Handel/freqtrade/user_data/strategies/*.py
+!Agenten/Handel/freqtrade/user_data/bots/*.json
+# Die Messwerkzeuge und Messaufsaetze der Frequenzbremse (T-197) und der
+# kurzen Seite (T-198). Beides ist eigene Arbeit mit Zahlen, die sonst nur im
+# Sitzungsprotokoll stuenden: das Skript, das die Laeufe faehrt, das, das sie
+# auswertet, die Tests, und je ein Aufsatz pro Variante (reine moondev-Bloecke,
+# KEINE Zugangsdaten - sie werden zusammen mit dem Bot-Aufsatz geladen).
+!Agenten/Handel/freqtrade/messung-*.sh
+!Agenten/Handel/freqtrade/messung-*.py
+!Agenten/Handel/freqtrade/tests/*.py
+!Agenten/Handel/freqtrade/user_data/messung/*.json
+
+# SWAP-Spur (Handel/swap/): eigener Papierpfad mit eigenen Wachen und Tests.
+# Ohne diese Zeilen waeren handeln.py und seine Tests nur lokal vorhanden -
+# genau die Luecke, die diese Datei schliessen soll. Die Datei war am
+# 12.09.2026 schon einmal eingetragen, aber ohne "!" und damit als Sperre.
+!Agenten/Handel/swap/*.py
+!Agenten/Handel/swap/*.md
+!Agenten/Handel/swap/*.json
+!Agenten/Handel/swap/tests/*.py
+!Agenten/Handel/swap/tests/fixtures/*.json
+# Spiegel-Spur (Copy-Trading als Papierbuch): Code, Wachen und Tests gehoeren
+# in den Verlauf - die Verfolgungsliste und das Buch nicht. verfolgte.json
+# schreibt '--waehlen' bei jedem Lauf neu (305 Wallets, reines Rauschen im
+# Vergleich), zustand.json und das Journal schreibt jeder Zyklus.
+!Agenten/Handel/spiegel/*.py
+!Agenten/Handel/spiegel/*.md
+!Agenten/Handel/spiegel/wachen.json
+!Agenten/Handel/spiegel/wachen.knapp.json
+!Agenten/Handel/spiegel/wachen.weit.json
+!Agenten/Handel/spiegel/tests/*.py
+# Kopier-Spur (Copy-Trading der Pump.fun-Rangliste als Papierbuch): Code,
+# Wachen und Tests in den Verlauf - das Buch nicht (zustand.json, Journal,
+# verfolgte.json und das Ablehnungsprotokoll schreibt jeder Zyklus).
+!Agenten/Handel/kopier/*.py
+!Agenten/Handel/kopier/*.md
+!Agenten/Handel/kopier/wachen.json
+!Agenten/Handel/kopier/tests/*.py
+# Fremd-Signal-Tor (Wache fuer Signale aus kraken-cli/agent-trade-kit): Wache in den Verlauf.
+!Agenten/Handel/fremd_signale/wachen.json
+!Agenten/Handel/fremd_signale/*.py
+!Agenten/Handel/orb/*.py
+!Agenten/Handel/orb/*.md
+!Agenten/Handel/orb/*.json
+!Agenten/Handel/orb/tests/*.py
+!Agenten/Handel/orb/tests/fixtures/*.json
+# ORB-Kraken-Spur (Handel/orbk/): Duplikation der ORB-Spur auf Kraken.
+# Gleiches Muster wie orb - aber HYPE/ETH statt OKX-Perps. Laufzeitdaten
+# (zustand.json, Journal, Kerzen-Cache) stehen unten in der Sperrliste.
+!Agenten/Handel/orbk/*.py
+!Agenten/Handel/orbk/*.md
+!Agenten/Handel/orbk/*.json
+!Agenten/Handel/orbk/tests/*.py
+!Agenten/Handel/orbk/tests/fixtures/*.json
+# Wachen-Datei des omnitrade-Projekts (Rust-Terminal/Bot). Nur die
+# Grenzen, kein Laufzeitstand - gleiche Rolle wie scanner/wachen.json.
+!Agenten/Handel/omnitrade_wachen.json
+# Omniquant-Spur (Papierbuch auf dem Prognose-Bericht): Code, Wachen und
+# Tests gehoeren in den Verlauf - zustand.json und das Journal nicht
+# (schreibt jeder Zyklus).
+!Agenten/Handel/omniquant/*.py
+!Agenten/Handel/omniquant/*.md
+!Agenten/Handel/omniquant/*.json
+!Agenten/Handel/omniquant/tests/*.py
+# Gitter-Spur (Papierbuch auf einem statischen Preisgitter, OKX-Stundenkerzen):
+# Code, Wachen, Auswertung und Tests in den Verlauf - zustand.json und das
+# Journal nicht (schreibt jeder Zyklus, stehen unten in der Sperrliste).
+!Agenten/Handel/gitter/*.py
+!Agenten/Handel/gitter/*.md
+!Agenten/Handel/gitter/*.json
+!Agenten/Handel/gitter/tests/*.py
+# Prognose-Spuren auf je EINEM Indikator (15.09.2026): squeeze, wavetrend,
+# macd_mtf, supertrend. Jede rechnet genau einen Indikator, damit der Edge
+# einzeln messbar bleibt - ein Ensemble liefert eine Zahl ohne Zuordnung.
+# Code, Wachen und Tests in den Verlauf; zustand.json und das Journal nicht
+# (schreibt jeder Zyklus, stehen unten in der Sperrliste).
+!Agenten/Handel/squeeze/*.py
+!Agenten/Handel/squeeze/*.md
+!Agenten/Handel/squeeze/*.json
+!Agenten/Handel/squeeze/tests/*.py
+!Agenten/Handel/wavetrend/*.py
+!Agenten/Handel/wavetrend/*.md
+!Agenten/Handel/wavetrend/*.json
+!Agenten/Handel/wavetrend/tests/*.py
+!Agenten/Handel/macd_mtf/*.py
+!Agenten/Handel/macd_mtf/*.md
+!Agenten/Handel/macd_mtf/*.json
+!Agenten/Handel/macd_mtf/tests/*.py
+!Agenten/Handel/supertrend/*.py
+!Agenten/Handel/supertrend/*.md
+!Agenten/Handel/supertrend/*.json
+!Agenten/Handel/supertrend/tests/*.py
+# Mosaic-Spur (Mehr-Zeitrahmen-Preisaktion, 4H/30M/5M, 15.09.2026):
+# Top-Down-Long-Setup: 4H-Bias (gruene Kerze), 30M-Pullback zur
+# Nachfragezone (Swing-Tiefs), 5M-Structure-Shift (Schluss ueber letztem
+# Swing-High). Reines Papierbuch ohne Live-Zweig, kein eigenes venv.
+# Code, Wachen und Tests in den Verlauf; zustand.json und Journal nicht.
+!Agenten/Handel/mosaic/*.py
+!Agenten/Handel/mosaic/*.md
+!Agenten/Handel/mosaic/*.json
+!Agenten/Handel/mosaic/tests/*.py
+# IV-Wand-Spur (Deribit, 16.09.2026): erwartete Tagesspanne aus IV und
+# historischer Volatilitaet, Waende aus dem offenen Interesse der Optionskette.
+# Papier, kein Live-Zweig. Code, Wachen, Gueteproben und Tests in den Verlauf;
+# der Datenspiegel (daten/) und das Backtest-Ergebnis sind regenerierbar und
+# stehen unten in der Sperrliste - ein neuer Ordner ist sonst unsichtbar.
+!Agenten/Handel/iv_waelle/*.py
+!Agenten/Handel/iv_waelle/*.md
+!Agenten/Handel/iv_waelle/wachen.json
+!Agenten/Handel/iv_waelle/tests/*.py
+!Agenten/Handel/verbesserer/*.py
+!Agenten/Handel/verbesserer/*.md
+!Agenten/Handel/verbesserer/*.json
+# Laufzeitzustand von Spur 2 (Merkmals-Cache ~23 MB, Holdout-Zaehler): nie versionieren.
+Agenten/Handel/verbesserer/xperp_merkmale.json
+Agenten/Handel/verbesserer/xperp_holdout_nutzung.json
+!Agenten/Handel/verbesserer/requirements.txt
+!Agenten/Handel/verbesserer/tests/*.py
+!Agenten/Handel/verbesserer/tests/fixtures/*.csv
+!Agenten/Handel/verbesserer/tests/fixtures/*.json
+# Telegram-Bus: Dienst fuer Ereignisverteilung
+!Agenten/Bus/*.py
+!Agenten/Bus/*.json
+!Agenten/Bus/*.ps1
+!Agenten/Bus/*.md
+!Agenten/Bus/tests/*.py
+# Laufzeitstaende: jede Bus-Nachricht aendert sie - nie versionieren (spaetere Regel gewinnt)
+# Bilder aus Telegram-Chats: Laufzeitpuffer des SkillsBot, kein Quelltext.
+# Der Ordner wird bei jedem Poll neu geschrieben - im Repo wuerde er
+# jeden Commit verraeuschen. Der Cache bleibt auf der Platte.
+Agenten/Bus/bilder/
+
+Agenten/Bus/stand.json
+Agenten/Bus/skillsbot.kontext.json
+# SkillsBot: aktiver Bot (Laufzeitstand wie der Offset)
+Agenten/Bus/skillsbot.ziel.json
+!Agenten/MCP-Server/mail/**
+!Agenten/MCP-Server/kraken/**
+!Agenten/MCP-Server/archiv/**
+!Agenten/MCP-Server/okx/**
+
+# --- 6) Konfiguration, die Verhalten steuert --------------------------------
+!MaxHirn/.mcp.json
+!MaxHirn/Archiv/.mcp.json
+# Zurueckgenommen am 16.09.2026: hier stand "!**/*.env.template". Gemeint war
+# eine Vorlage fuer Zugangsdaten - was die Regel tatsaechlich aufnahm, war der
+# ToolUniverse-MCP-Server: er schreibt bei jedem Start ohne Schluessel eine
+# eigene .env.template in sein ARBEITSVERZEICHNIS, und das war die Sitzungs-
+# wurzel. So landeten Kopien in der Repo-Wurzel, in MaxHirn/, MaxHirn/Archiv/,
+# Agenten/Hermes/ und Agenten/Bus/ - teils sogar committet. Eine .env.template
+# ist damit nie ein Dokument, sondern immer ein Nebenprodukt. Sie bleibt ab
+# jetzt ignoriert (Grundsatzregel "*" in Zeile 20); verhindert wird sie an der
+# Quelle: cwd-Eintrag des Servers in Agenten/Hermes/config.yaml.
+!MaxHirn/.claude/settings.local.json
+!MaxHirn/Archiv/.claude/settings.local.json
+
+# --- 7) Die Spielregeln des gemeinsamen Arbeitsordners ----------------------
+# Aus Werkstatt/ ist nur das versioniert, was Verhalten steuert. Der Rest ist
+# Durchgangsware: Uebergaben, Zwischenstaende, geklonte Fremd-Repos.
+!Werkstatt/*.md
+
+# --- 8) Rueckausnahmen: was trotz der Freigaben oben draussen bleibt --------
+
+# Zugangsdaten. Zugaenge.md ist laut CLAUDE.md die einzige Ablage fuer
+# Schluessel und Tokens - im Klartext. In Git waere sie fuer immer drin, auch
+# nach einem spaeteren Loeschen, denn Git vergisst nichts. Das ist der Punkt,
+# an dem Versionsverwaltung zum Risiko wird statt zum Schutz.
+MaxHirn/Wissen/Zugaenge.md
+MaxHirn/Wissen/Passwoerter-Quarantaene.md
+**/.env
+**/*.pem
+**/*.pfx
+**/*.p12
+**/*.kdbx
+**/*_key.txt
+**/acoustid_key.txt
+
+# Laufender Zustand, keine Fassung von Hand. plan.json haelt den Stand des
+# DCA-Agenten; jeder Lauf schreibt hinein. Im Verlauf waere das Rauschen, das
+# die echten Aenderungen zudeckt.
+Agenten/Handel/plan.json
+Agenten/Handel/plan.json.v1
+Agenten/Handel/check.log
+
+# Marktscanner: laufender Zustand und Berichte. wachen.json ist oben bewusst
+# freigegeben (Konfiguration von Hand), diese drei nicht (jeder Lauf schreibt).
+Agenten/Handel/scanner/zustand.json
+Agenten/Handel/scanner/handelsjournal.csv
+Agenten/Handel/scanner/berichte/**
+
+# Spur 3 (Kraken): dieselbe Aufteilung. wachen.json ist Konfiguration von
+# Hand und oben freigegeben, diese drei schreibt jeder Lauf.
+Agenten/Handel/kraken/zustand.json
+Agenten/Handel/kraken/handelsjournal.csv
+Agenten/Handel/kraken/berichte/**
+
+# Spur 2 (XPERP): dieselbe Aufteilung. wachen.json ist Konfiguration von
+# Hand und oben freigegeben, diese drei schreibt jeder Lauf.
+Agenten/Handel/xperp/zustand.json
+Agenten/Handel/xperp/handelsjournal.csv
+# carry.py: kein Orderweg, aber Zustand + Ergebnis je Lauf
+Agenten/Handel/carry/zustand.json
+Agenten/Handel/carry/handelsjournal.csv
+Agenten/Handel/xperp/berichte/**
+
+# SWAP-Spur: dieselbe Aufteilung wie bei den Spuren 1-3. wachen.json ist
+# Konfiguration von Hand und oben freigegeben, diese drei schreibt jeder Lauf.
+Agenten/Handel/swap/zustand.json
+Agenten/Handel/swap/handelsjournal.csv
+Agenten/Handel/swap/berichte/**
+# Der einmalige Korrekturlauf an handeln.py (vier Ersetzungen, jede einzeln
+# gezaehlt). Er hat seine Aufgabe erfuellt und gehoert nicht in den Verlauf.
+Agenten/Handel/swap/_fix.py
+
+# Spiegel-Spur: das Buch selbst. wachen.json ist oben bewusst freigegeben
+# (Grenzen von Hand), diese vier schreibt der Lauf.
+Agenten/Handel/spiegel/zustand.json
+Agenten/Handel/spiegel/handelsjournal.csv
+Agenten/Handel/spiegel/verfolgte.json
+Agenten/Handel/spiegel/daten/**
+
+# Kopier-Spur: das Buch selbst. wachen.json ist oben freigegeben (Grenzen von
+# Hand), diese vier schreibt der Zyklus (Journal, Zustand, verfolgte.json,
+# Ablehnungsprotokoll) plus die Messung.
+Agenten/Handel/kopier/zustand.json
+Agenten/Handel/kopier/handelsjournal.csv
+Agenten/Handel/kopier/verfolgte.json
+Agenten/Handel/kopier/ablehnungen.csv
+
+# Die vier Indikator-Spuren (15.09.2026 angeschlossen): dieselbe Aufteilung
+# wie bei allen anderen - wachen.json ist oben freigegeben, zustand.json
+# schreibt jeder Lauf. Ohne diese Zeilen waren ihre Zustaende die EINZIGEN,
+# die der Verlauf mitgenommen haette: die Dateizeilen oben geben `*.json`
+# frei, und die Sperrliste nannte die neuen Ordner noch nicht.
+Agenten/Handel/macd_mtf/zustand.json
+Agenten/Handel/squeeze/zustand.json
+# Schattenarm squeeze_eth (03.10.2026): Wachen sind versioniert, die
+# Buchdateien des Arms NICHT - sonst wuerde der Arm beim Start seine eigene
+# Historie als Zustand laden.
+Agenten/Handel/squeeze/zustand.eth*.json
+Agenten/Handel/squeeze/handelsjournal.eth*.csv
+Agenten/Handel/squeeze/signal_queue.eth*.json
+Agenten/Handel/supertrend/zustand.json
+Agenten/Handel/wavetrend/zustand.json
+Agenten/Handel/mosaic/zustand.json
+Agenten/Handel/mosaic/handelsjournal.csv
+Agenten/Handel/kopier/daten/**
+
+# Spur 4 (ORB Index): dieselbe Aufteilung. wachen.json ist Konfiguration von
+# Hand und oben freigegeben; Zustand, Journal und der Kerzen-Cache schreibt
+# jeder Lauf.
+Agenten/Handel/orb/zustand.json
+Agenten/Handel/orb/handelsjournal.csv
+Agenten/Handel/orb/daten/**
+Agenten/Handel/orbk/zustand.json
+Agenten/Handel/orbk/handelsjournal.csv
+Agenten/Handel/orbk/daten/**
+
+# Omniquant-Spur: dieselbe Aufteilung. wachen.json ist oben freigegeben
+# (Grenzen von Hand); Zustand und Journal schreibt jeder Zyklus.
+Agenten/Handel/omniquant/zustand.json
+Agenten/Handel/omniquant/handelsjournal.csv
+# Schattenarm 'weit' (24.09.2026): Laufzeitstand, keine Konfiguration -
+# wachen.weit.json BLEIBT versioniert (oben per *.json freigegeben).
+Agenten/Handel/omniquant/zustand.weit*.json
+Agenten/Handel/omniquant/handelsjournal.weit*.csv
+# Gitter-Spur: Laufzeitstand gesperrt (schreibt jeder Zyklus), Code und
+# wachen.json sind oben freigegeben.
+Agenten/Handel/gitter/zustand.json
+Agenten/Handel/gitter/handelsjournal.csv
+# IV-Wand-Spur: der Datenspiegel (Deribit-Antworten) und das Backtest-Ergebnis
+# sind aus dem Netz jederzeit neu zu holen und wuerden den Verlauf aufblaehen
+# (rund 1,1 MB). Code und Wachen bleiben oben freigegeben.
+Agenten/Handel/iv_waelle/daten/
+Agenten/Handel/iv_waelle/backtest_ergebnis.json
+Agenten/Handel/iv_waelle/__pycache__/
+
+# Verbesserer: laufender Zustand. konfig.json und spuren.json sind oben
+# freigegeben (Konfiguration von Hand), diese drei schreibt jeder Lauf.
+Agenten/Handel/verbesserer/kerzen/**
+Agenten/Handel/verbesserer/berichte/**
+Agenten/Handel/verbesserer/bak/**
+
+# Erzeugtes und Fremdes
+**/__pycache__/**
+**/.venv/**
+**/node_modules/**
+**/*.pyc
+**/logs/**
+MaxHirn/Archiv/ArchivSuche/*.db
+MaxHirn/Archiv/ArchivSuche/*.db-shm
+MaxHirn/Archiv/ArchivSuche/*.db-wal
+MaxHirn/Archiv/.claude/scheduled_tasks.lock
+
+# Fremd-Repositories. Sie bringen ein eigenes .git mit; Git nimmt sie sonst als
+# Submodul-Verweis auf (gemessen 24.08.2026: neun Stueck). Ein solcher Verweis
+# speichert nur einen fremden Commit-Hash - beim Auschecken faende sich dort ein
+# leerer Ordner. Sie sind ohnehin aus Git reproduzierbar.
+# Alles unter Werkstatt/ ausser den Spielregeln an ihrer Wurzel. Auch die
+# Unterordner selbst werden ignoriert: Sonst zeigt Git eingebettete Fremd-Repos
+# als "?? Werkstatt/<repo>/" und das gefaehrliche Status-Rauschen bleibt.
+Werkstatt/*/
+Agenten/Hermes/hermes-agent/**
+Modelle/**
+
+# Fremde MCP-Server. Freigegeben sind oben nur die drei eigenen (mail, kraken,
+# archiv). Diese Muster nehmen keine Vorlage mehr mit - die eine Freigabe fuer
+# *.env.template ist oben am 16.09.2026 zurueckgenommen (siehe Zeile 212).
+Agenten/MCP-Server/ant.dir.*/**
+
+# Hermes komplett. Aus diesem Ordner ist nichts freigegeben, aber die Regel in
+# Zeile 27 macht Unterordner begehbar - Git meldete deshalb bei jedem Aufruf
+# "?? Hermes/". Rauschen in git status ist gefaehrlich: Wer es gewohnt ist,
+# uebersieht darin die eine Zeile, auf die es ankommt. Der Ordner enthaelt
+# ausserdem auth.json und .env, also Zugangsdaten. Konfiguration und Gedaechtnis
+# des zweiten Agenten sichert sichern-zweitkopie.ps1 nach O:.
+Agenten/Hermes/**
+# Ausnahme: das automatik/-Verzeichnis und seine versionierten Teile.
+# Muss direkt nach der allgemeinen Regel stehen, sonst wirkt es nicht.
+!Agenten/Hermes/automatik/
+!Agenten/Hermes/automatik/**
+!Agenten/Hermes/automatik/**/*.py
+!Agenten/Hermes/automatik/**/*.md
+!Agenten/Hermes/automatik/**/*.yaml
+!Agenten/Hermes/automatik/**/*.json
+# Davon wieder ausschließen: Laufzeit, Caches, generierte Inventardateien.
+Agenten/Hermes/automatik/betrieb/arbeit/
+Agenten/Hermes/automatik/__pycache__/
+Agenten/Hermes/automatik/**/__pycache__/
+Agenten/Hermes/automatik/spez/inventar.json
+Agenten/Hermes/automatik/spez/inventar.md
+# HERMES, freigelegt am 12.09.2026. Freigegeben ist das von Hand Gemachte:
+# die Konfiguration, das Profilwesen, Notizen und Aufgaben. NICHT dabei:
+#   - Zugangsdaten: .env (26 KB), auth.json, je Profil dieselben
+#   - Zustandsdatenbanken: state.db, projects.db, kanban.db, executions.db,
+#     jeweils auch mit -wal und -shm
+#   - Laufzeitkram: Zwischenspeicher, Sitzungen, Protokolle, Anhaenge,
+#     Kopplung, home, workspace, Sperr- und Herzschlagdateien
+#   - hermes-setup.exe und der geklonte Quellbaum hermes-agent/ (oben gesperrt)
+#   - die Skill-Kopien der Profile. Sie sind Abschriften von
+#     MaxHirn/.claude/skills/ (die Quelle liegt dort im Verlauf) und tragen
+#     hier sonst skills.tar.gz und .curator_backups mit - gemessen am
+#     12.09.2026 waeren das 8267 Dateien je Durchlauf statt rund 60.
+#
+# ZUERST die Verzeichnisse. git gibt eine Datei nicht frei, solange ein
+# darueber liegendes Verzeichnis gesperrt ist - es sieht dann nicht hinein und
+# eine spaetere Datei-Freigabe bleibt wirkungslos.
+!Agenten/Hermes/profiles/
+!Agenten/Hermes/profiles/*/
+!Agenten/Hermes/profiles/*.md
+!Agenten/Hermes/profiles/mcp-abweichungen.yaml
+# dann die Dateien
+!Agenten/Hermes/profiles/*/config.yaml
+!Agenten/Hermes/profiles/*/profile.yaml
+!Agenten/Hermes/profiles/*/SOUL.md
+!Agenten/Hermes/profiles/*/rule_maXtrade.md
+!Agenten/Hermes/profiles/*/memories/*.md
+!Agenten/Hermes/profiles/*/cron/*.json
+!Agenten/Hermes/profiles/*/cron/*.yaml
+!Agenten/Hermes/profiles/*/plans/**
+!Agenten/Hermes/profiles/*/hooks/**
+!Agenten/Hermes/profiles/*/skins/**
+# Wartungsbot (11.10.2026): die Skripte, die ein Profil per Hermes-Cron ohne
+# Modell fahrt. Der Cron loest einen Skriptpfad NUR innerhalb des eigenen
+# Profils auf (cron/scheduler_script.py::_resolve_script_path), also gehoert
+# ein no_agent-Skript in `profiles/<profil>/scripts/`. Ohne diese Zeile liegt
+# das Skript ausserhalb von Git - genau die Ablage, aus der am 30.09.2026
+# sechs Testdateien unbemerkt verschwunden sind (T-100).
+!Agenten/Hermes/profiles/*/scripts/
+!Agenten/Hermes/profiles/*/scripts/**
+#
+# SKILL-BUNDLES (11.10.2026): Slash-Command-Buendel unter
+# Agenten/Hermes/skill-bundles/*.yaml - Verhalten wie Skills, deshalb
+# versioniert. Zuerst das Verzeichnis, dann die Dateien.
+!Agenten/Hermes/skill-bundles/
+!Agenten/Hermes/skill-bundles/*.yaml
+#
+# SKILLS, freigelegt am 15.09.2026. Die Hauptbibliothek ist Prozedurwissen in
+# Textform (591 Dateien, 7,7 MB ohne die drei Brocken unten) und steuert das
+# Verhalten jedes Laufs - sie gehoert in den Verlauf, nicht nur in die Sicherung.
+# Mit drin ist .archive/ (70 ausgemusterte Skills, 3,4 MB): der Hinweis
+# "hermes curator restore <name>" ist nur so lange etwas wert, wie der Ordner
+# existiert.
+# ZUERST die Verzeichnisse - eine Datei wird nicht frei, solange ein darueber
+# liegendes Verzeichnis gesperrt ist.
+!Agenten/Hermes/skills/
+!Agenten/Hermes/skills/**
+# dann die Sperren (es gilt der letzte Treffer):
+#   - .hub/ ist der Index-Zwischenspeicher des Skill-Hubs (47 MB, eine Datei)
+#   - .curator_backups/ sind fuenf tar.gz-Sicherungen (12 MB) + Protokoll
+#   - okx-* sind JUNCTIONS auf C:/Users/faupe/.agents/skills/... - ein fremder
+#     Baum. Git folgt ihnen und zoege Fremdinhalt samt .rollback-broken herein.
+#     Wer eine weitere Junction anlegt, sperrt ihren Ordner hier.
+#   - die Skill-Kopien der Profile bleiben gesperrt (1767 Abschriften oben).
+Agenten/Hermes/skills/.hub/
+Agenten/Hermes/skills/.curator_backups/
+Agenten/Hermes/skills/okx-*/
+Agenten/Hermes/skills/**/*.pyc
+Agenten/Hermes/skills/**/__pycache__/
+# Nachtrag 15.09.2026: zwei Laufzeitdateien waren mit der Freigabe oben
+# hereingekommen. Der Kurator-Ledger (1,4 MB) und die Nutzungsstatistik
+# schreibt jeder Lauf; sie erzeugten bei jedem git status Rauschen.
+Agenten/Hermes/skills/.curator_ledger.jsonl
+Agenten/Hermes/skills/.usage.json
+# Nachtrag 18.09.2026: .curator_state ist derselbe Fall - der Kurator schreibt
+# nach jedem Lauf Zeitstempel und Zaehler hinein (Rauschen in jedem git status).
+Agenten/Hermes/skills/.curator_state
+# Nachtrag 16.09.2026: .locks/ sind Sperrdateien des laufenden Kurators -
+# sie gehoeren keinem Commit. Ohne diese Zeile kamen sie ueber die
+# Freigabe oben herein.
+Agenten/Hermes/skills/.locks/
+# Weggelegte Skills (skills-entdoppeln.py, 21.09.2026): NICHT versioniert.
+# Abweichung von der Regel oben (Zeile 426, '70 Skills, 3,4 MB'): der
+# neue Archivstapel ist 281 MB und enthaelt FUENF Fremd-Klone mit .git
+# (notebooklm-py 189 MB, context7 61 MB, claude-plugins-official 18 MB,
+# cli, financial-services). Der TEXT jedes weggelegten Skills steht
+# weiterhin in der Git-Historie - die Dateien wurden in d0ea4d als
+# geloescht committet, also ist 'git show <commit>^:<pfad>' der Weg
+# zurueck, und auf der Platte liegt alles unter .archive/.
+Agenten/Hermes/skills/.archive/
+# Nachtrag 21.09.2026: Fremd-Klone IM Skill-Baum (1,8 GB, jeder mit eigenem .git).
+# Sie kamen am 19.09.2026 herein und haben seitdem JEDEN naechtlichen Zwischenstand
+# zum Absturz gebracht: 'git add -A' bricht mit Exitcode 128 ab, weil 'mfaupel95'
+# keinen Commit ausgecheckt hat ('does not have a commit checked out') - der Lauf
+# endet in 'ENDE FEHLER', letzter Zwischenstand ist der 18.09.2026.
+# Zwei Gruende fuer die Sperre: ein verschachteltes Repo wird nie versioniert (Git
+# merkt nur einen Zeiger an), und eines OHNE Commit macht den ganzen Lauf unmoeglich.
+# Der Inhalt (SKILL.md) liegt vollstaendig im jeweiligen Fremd-Repo; der Fundus und
+# Werkstatt/Repos sind der richtige Ort fuer so etwas, nicht die Bibliothek.
+Agenten/Hermes/skills/EasyCLIProxyAPI/
+Agenten/Hermes/skills/OmniRoute/
+Agenten/Hermes/skills/acoustid-index/
+Agenten/Hermes/skills/chromaprint/
+Agenten/Hermes/skills/claude-code/
+Agenten/Hermes/skills/mfaupel95/
+Agenten/Hermes/skills/nautilus_trader/
+Agenten/Hermes/skills/onchainos-skills/
+Agenten/Hermes/skills/one-skill-to-rule-them-all/
+Agenten/Hermes/skills/one-skill-to-rule-them-all-main/
+Agenten/Hermes/skills/public-apis/
+Agenten/Hermes/skills/unsloth/
+#
+# CRON-SKRIPTE, freigelegt am 15.09.2026. Die Skripte, die der
+# Hermes-Scheduler ohne Modell fahrt (no_agent) - sie sind Prozedurwissen
+# wie die Skills und werden sonst nur nach G: gesichert. Die Zeile in
+# Wissen/Routinen.md verweist auf sie; ohne sie waere der Verweis nach
+# einem Verlust tot. Nur .py, kein Zwischenspeicher, kein Log.
+!Agenten/Hermes/scripts/
+!Agenten/Hermes/scripts/**/*.py
+# Hermes-Doctor (19.09.2026): doctor-context.md (CLAUDE.md-Vorlage) und
+# befund-schema.json (Befund-Schema) sind Prozedurwissen wie die .py-Skripte.
+!Agenten/Hermes/scripts/doctor-context.md
+!Agenten/Hermes/scripts/befund-schema.json
+# Wartungsbot (21.09.2026): auth-verknuepfen.ps1 koppelt ein Profil per
+# Symlink an den Root-auth.json-Store - Prozedurwissen, auf das
+# Wissen/Repo-Bots.md verweist.
+!Agenten/Hermes/scripts/auth-verknuepfen.ps1
+#
+# AUTO-AUSFUEHRUNGS-ENGINE, konsolidiert am 30.09.2026 (Kanban t_42a2e275).
+# Dauerhaftes Home der vier Kinder-Tasks (spez/engine/reaktion/automatik).
+# Versioniert: Code, Registry/Konfiguration, Schema und Doku. NICHT
+# versioniert: Laufzeitstand (betrieb/arbeit/: zustand.db, kopplung.json,
+# kopplung-log.jsonl, laeufe.jsonl, nachrichten/), __pycache__ und das
+# generierte Skill-Inventar (spez/inventar.*) - alles erzeugte Ware.
+# Alles aufnehmen, dann nur den Laufzeitstand und generierte Ware schließen.
+!Agenten/Hermes/automatik/
+!Agenten/Hermes/automatik/**
+!Agenten/Hermes/automatik/**/*.py
+!Agenten/Hermes/automatik/**/*.md
+!Agenten/Hermes/automatik/**/*.yaml
+!Agenten/Hermes/automatik/**/*.json
+# Davon wieder ausschließen: Laufzeit, Caches, generierte Inventardateien.
+Agenten/Hermes/automatik/betrieb/arbeit/
+Agenten/Hermes/automatik/__pycache__/
+Agenten/Hermes/automatik/**/__pycache__/
+Agenten/Hermes/automatik/spez/inventar.json
+Agenten/Hermes/automatik/spez/inventar.md
+#
+# PROJECTATLAS-WERKZEUGE, freigelegt am 15.09.2026. Die Skripte, die
+# den Watcher starten und die Repos kartieren - Prozedurwissen, auf das
+# Wissen/Projektatlas.md und Wissen/Routinen.md verweisen. NICHT
+# freigegeben: bin/ und v0.4.5/ (Laufzeit, 100+ MB) und logs/.
+!Agenten/Werkzeuge/projectatlas/*.ps1
+!Agenten/Werkzeuge/projectatlas/*.cmd
+!Agenten/Werkzeuge/projectatlas/*.sh
+!Agenten/Werkzeuge/projectatlas/*.py
+# PROJECTATLAS-DESIGNS (19.09.2026): Design-/Plan-Dokumente fuer die
+# Atlas-Erschliessung der Fremd-Agenten-Repos (Teilprojekte A/B/C).
+!Agenten/Werkzeuge/projectatlas/docs/
+!Agenten/Werkzeuge/projectatlas/docs/design/
+!Agenten/Werkzeuge/projectatlas/docs/design/*.md
+!Agenten/Werkzeuge/projectatlas/docs/plans/
+!Agenten/Werkzeuge/projectatlas/docs/plans/*.md
+# FUNDUS-SUCHE, freigelegt am 16.09.2026. Ein Werkzeug, kein Laufzeitstand:
+# der Skill fundus-zugriff nennt es als EINEN Zugang zum Fundus, und
+# Wissen/Fundus-Index.md wird damit erzeugt. Ohne die Zeile lag es nur auf der
+# Platte - eine Wiederherstellung aus dem Verlauf haette den Zugang verloren.
+!Agenten/Werkzeuge/fundus-suche.ps1
+!Agenten/Werkzeuge/bonsai-27b.ps1
+!Agenten/Werkzeuge/kraken.ps1
+!Agenten/Werkzeuge/desktop-verknuepfungen.ps1
+# Werkzeug: Fremd-Klone auf den Stand ihrer Quelle spulen (21.09.2026)
+!Agenten/Werkzeuge/repos-updaten.py
+# ZWEIG-WERKZEUG (04.10.2026): misst Zweige und Worktrees mit drei
+# unabhaengigen Zeugen (merge-base, rev-list, cherry/Patch-ID) und entfernt nur,
+# was BEIDES belegt. Ohne die Zeile liegt das Werkzeug nur auf der Platte - und
+# ein Aufraeumwerkzeug ohne Version ist im Mehrsitzungsbetrieb eine weitere
+# Fehlerquelle statt eine Loesung. Die Tests gehoeren in dieselbe Freigabe.
+!Agenten/Werkzeuge/zweige.py
+!Agenten/Werkzeuge/tests/test_zweige.py
+# MCP-Bloecke der Profile aus der Haupt-Config erzeugen (07.10.2026), Tests inklusive.
+!Agenten/Werkzeuge/mcp-profile-sync.py
+!Agenten/Werkzeuge/tests/test_mcp_profile_sync.py
+# MCP-Manifest: Quelle fuer den Abgleich Hermes <-> Claude Desktop (mcp-sync-check.ps1).
+# Enthaelt Pfade und Argumente, KEINE Schluessel - vor dem ersten Commit pruefen.
+!Agenten/MCP-Manifest.json
+!Agenten/Werkzeuge/marktdaten.py
+!Agenten/Werkzeuge/fenster_design.py
+!Agenten/Werkzeuge/hermes-gateway-task-deaktivieren.ps1
+# ANKER-PRUEFUNG (01.10.2026): beweist, dass die Profilfunktion `hermes` die
+# Sitzung in Agenten/Hermes startet (Attrappe statt hermes.exe, echte Funktion).
+# Ohne die Zeile liegt das Werkzeug nur auf der Platte.
+!Agenten/Werkzeuge/anker-pruefen.ps1
+!Agenten/Werkzeuge/eingabe-quelle.py
+# OLLAMA-BRUECKE, freigelegt am 24.09.2026. Sie ist der EINE Weg, auf dem
+# Fremd-Agenten mit OpenAI-Zweig ohne bezahlten Schluessel ein Urteil vom
+# lokalen Modell bekommen (Ollama-eigener /v1-Adapter liefert bei Denk-Modellen
+# leeren content, die Bruecke ruft nativ mit think:false auf). Ohne diese Zeile
+# laege sie nur auf dieser Platte.
+!Agenten/Werkzeuge/ollama-openai-bruecke.py
+# LLAMACPP-ADAPTER, angelegt am 12.10.2026. Ollama wurde am 11.10.2026
+# deinstalliert; die Haus-Laufzeit ist der llama-server auf 18434. Der spricht
+# nur OpenAI, die Fremd-Agenten rufen aber Ollamas native Form (/api/chat).
+# Dieser Adapter uebersetzt in die Gegenrichtung der alten Bruecke. Ohne diese
+# Zeile laege er nur auf dieser Platte.
+!Agenten/Werkzeuge/llamacpp-ollama-bruecke.py
+# REPOS-LAUNCHER, freigelegt am 18.09.2026. Er lag seit dem 16.09. unter
+# Agenten/Routinen/ (dort gilt jede .ps1 als Bus-Routine, was er nicht ist) und
+# war NIE versioniert - nach einem Verlust waere der Massenstart-Weg weg
+# gewesen. Jetzt unter Werkzeuge/ und freigegeben.
+!Agenten/Werkzeuge/repos-launcher.ps1
+# REPOS-ZENTRALE, freigelegt am 18.09.2026. Das Startfenster fuer die Repos
+# unter Werkstatt/ (die selbst komplett gesperrt sind): ohne diese Zeilen waere
+# die Zentrale ein Werkzeug, das nur auf dieser Platte existiert. Freigegeben
+# sind Programm, Manifest, Wrapper und Doku - NICHT die venv, die logs/ und die
+# .bak-Dateien.
+!Agenten/Werkzeuge/repos-zentrale/*.py
+!Agenten/Werkzeuge/repos-zentrale/*.ps1
+!Agenten/Werkzeuge/repos-zentrale/*.json
+!Agenten/Werkzeuge/repos-zentrale/*.md
+!Agenten/Werkzeuge/repos-zentrale/docs/
+!Agenten/Werkzeuge/repos-zentrale/docs/design/
+!Agenten/Werkzeuge/repos-zentrale/docs/design/*.md
+!Agenten/Werkzeuge/repos-zentrale/docs/plans/
+!Agenten/Werkzeuge/repos-zentrale/docs/plans/*.md
+!Agenten/Werkzeuge/repos-zentrale/tests/
+!Agenten/Werkzeuge/repos-zentrale/tests/*.py
+!Agenten/Werkzeuge/lotse-route.py
+# CODEX REMOTE CONTROL (03.10.2026): `codex remote-control` ist auf Windows
+# unbrauchbar (Daemon-Lifecycle ist Unix-only). Der tragende Weg ist der
+# app-server-Prozess mit --remote-control und lokalem WebSocket-Transport;
+# dieses Skript startet ihn bei der Anmeldung und ist im Skript selbst
+# lokalisierend. Es liegt bewusst unter Werkzeuge/ und NICHT unter Routinen/ -
+# dort gilt jede .ps1 als Bus-Routine, was sie nicht ist (gleiche Ueberlegung
+# wie bei repos-launcher.ps1 oben). logs/ bleiben gesperrt.
+!Agenten/Werkzeuge/codex-remote-control.ps1
+# FOMO-RADAR AUF LOKALEM MODELL (23.09.2026): Das Fremd-Repo
+# Werkstatt/Repos/fomo-robinhood-radar bewertet Trader-Wallets mit Claude. Ohne
+# Guthaben faellt das Urteil lokal (Ollama) - ueber die Export/Import-Naht, die
+# das Repo selbst verlangt. Ohne diese Zeilen laege das Werkzeug nur auf dieser
+# Platte; der Export-/Ergebnis-Zwischenstand liegt bewusst AUSSERHALB des Repos
+# unter Agenten/Hermes/cache/fomo-lokal/.
+!Agenten/Werkzeuge/fomo_lokal.py
+!Agenten/Werkzeuge/tests/
+!Agenten/Werkzeuge/tests/*.py
+
+# AUTOSTART-SKRIPTE von Hermes (17.09.2026): Die .vbs starten Gateway und
+# Dashboard bei der Anmeldung. Sie sind Konfiguration von Hand (keine
+# Laufzeitdaten, keine Geheimnisse) - ohne sie fehlt nach einer
+# Wiederherstellung der Autostart. Die .cmd-Geschwister bleiben draussen.
+# Das Verzeichnis selbst muss mit freigegeben werden: ein ! auf eine Datei
+# greift nicht, solange der Elternordner ignoriert ist.
+!Agenten/Hermes/gateway-service/
+!Agenten/Hermes/gateway-service/*.vbs
+# und ZULETZT die Sperren: es gilt der letzte Treffer, eine spaetere Freigabe
+# wuerde die frueheren Sperren aufheben.
+Agenten/Hermes/.env
+Agenten/Hermes/auth.json
+Agenten/Hermes/context_length_cache.yaml
+Agenten/Hermes/profiles/*/.env
+Agenten/Hermes/profiles/*/auth.json
+Agenten/Hermes/profiles/*/*.db
+Agenten/Hermes/profiles/*/*.db-shm
+Agenten/Hermes/profiles/*/*.db-wal
+Agenten/Hermes/profiles/*/cron/*.db
+Agenten/Hermes/profiles/*/cache/**
+Agenten/Hermes/profiles/*/logs/**
+Agenten/Hermes/profiles/*/sessions/**
+Agenten/Hermes/profiles/*/state/**
+Agenten/Hermes/profiles/*/audio_cache/**
+Agenten/Hermes/profiles/*/image_cache/**
+Agenten/Hermes/profiles/*/assets/**
+Agenten/Hermes/profiles/*/pairing/**
+Agenten/Hermes/profiles/*/home/**
+Agenten/Hermes/profiles/*/workspace/**
+Agenten/Hermes/profiles/*/skills/**
+# Profil-Skills (T-379, 11.10.2026): gepflegte Lehren in Bot-Profilen bekommen
+# Git-Historie. NUR SKILL.md (2529 Dateien, 23,7 MB) - die uebrigen .md
+# (README/Hilfsdateien, 88,5 MB gesamt) blaehen nur auf. Cache-Ordner bleiben
+# gesperrt (spaetere Regel gewinnt).
+!Agenten/Hermes/profiles/*/skills/
+!Agenten/Hermes/profiles/*/skills/**/
+!Agenten/Hermes/profiles/*/skills/**/SKILL.md
+Agenten/Hermes/profiles/*/skills/**/.sicherung-junctions/
+Agenten/Hermes/profiles/*/skills/**/.hub/
+Agenten/Hermes/profiles/*/skills/**/.curator_backups/
+Agenten/Hermes/profiles/*/skills/**/.archive/
+Agenten/Hermes/profiles/*/skills/.usage.json
+Agenten/Hermes/profiles/*/skills/.curator_ledger.jsonl
+Agenten/Hermes/profiles/*/skills/.curator_state
+Agenten/Hermes/profiles/*/skills/.locks/
+Agenten/Hermes/state-snapshots/**
+Agenten/Hermes/cache/**
+Agenten/Hermes/logs/**
+Agenten/Hermes/state/**
+
+# Risikostufen (15.09.2026): eine Stufe fuehrt ein ZWEITES Buch derselben Spur
+# (zustand.mittel.json, handelsjournal.mittel.csv) plus eigene Dauerlauf-Dateien
+# (dauerlauf.mittel.log, dauerlauf.mittel.pid). Laufender Zustand wie die
+# Basisdateien - der Code, der ihn erzeugt, ist oben laengst freigegeben. Die
+# Journale der Stufe deckt die CSV-Sperre der Spuren schon mit ab, den Zustand
+# nicht: bis hierher waere zustand.mittel.json die EINZIGE Zustandsdatei im
+# Verlauf gewesen (dieselbe Luecke wie bei den Indikator-Spuren am 15.09.).
+Agenten/Handel/*/zustand.mittel.json
+Agenten/Handel/*/zustand.hoch.json
+Agenten/Handel/*/ablehnungen.mittel.csv
+Agenten/Handel/*/ablehnungen.hoch.csv
+Agenten/Handel/dauerlauf.*.log
+Agenten/Handel/dauerlauf.*.pid
+
+# MONODEV-FUNDING-SPUR (16.09.2026): eigener Spur-Ordner, also Code, Wachen,
+# README und Tests freigeben - Zustand und Journal bleiben gesperrt. Ohne die
+# Freigabe waere der neue Ordner unsichtbar (erst alles ignorieren, dann
+# einzeln freigeben).
+!Agenten/Handel/moondev_funding/*.py
+!Agenten/Handel/moondev_funding/*.md
+# NUR die Wachen sind Konfiguration von Hand. Hier stand `*.json` - und weil
+# diese Zeile NACH der allgemeinen Sperre `Agenten/Handel/*/zustand.mittel.json`
+# steht, hob sie sie auf: das Laufzeit-File zustand.mittel.json der Spur war
+# damit sichtbar (17.09.2026 aufgefallen; es lag als "??" im Arbeitsbaum).
+!Agenten/Handel/moondev_funding/wachen.json
+!Agenten/Handel/moondev_funding/tests/*.py
+Agenten/Handel/moondev_funding/zustand.json
+Agenten/Handel/moondev_funding/handelsjournal.csv
+# Die drei weiteren Bot-Spuren (16.09.2026): derselbe Aufbau.
+!Agenten/Handel/moondev_daten.py
+!Agenten/Handel/spur_buch.py
+!Agenten/Handel/moondev_listingarb/*.py
+!Agenten/Handel/moondev_listingarb/*.md
+# Nur die Wachen sind Konfiguration von Hand - zustand.json und
+# zustand.mittel.json schreibt jeder Lauf und bleiben gesperrt.
+!Agenten/Handel/moondev_listingarb/wachen.json
+!Agenten/Handel/moondev_listingarb/tests/*.py
+Agenten/Handel/moondev_listingarb/zustand.json
+Agenten/Handel/moondev_listingarb/handelsjournal.csv
+!Agenten/Handel/moondev_topmovers/*.py
+!Agenten/Handel/moondev_topmovers/*.md
+# Nur die Wachen sind Konfiguration von Hand - zustand.json und
+# zustand.mittel.json schreibt jeder Lauf und bleiben gesperrt.
+!Agenten/Handel/moondev_topmovers/wachen.json
+!Agenten/Handel/moondev_topmovers/tests/*.py
+!Agenten/Handel/trendwende_btc/*.py
+!Agenten/Handel/trendwende_btc/*.md
+!Agenten/Handel/trendwende_btc/wachen.json
+!Agenten/Handel/trendwende_btc/tests/*.py
+!Agenten/Handel/liq_wand/*.py
+!Agenten/Handel/liq_wand/*.md
+!Agenten/Handel/liq_wand/wachen.json
+!Agenten/Handel/liq_wand/tests/*.py
+Agenten/Handel/liq_wand/zustand.json
+Agenten/Handel/liq_wand/handelsjournal.csv
+!Agenten/Handel/robinhood_radar/*.py
+!Agenten/Handel/robinhood_radar/*.md
+!Agenten/Handel/robinhood_radar/wachen.json
+!Agenten/Handel/robinhood_radar/tests/*.py
+Agenten/Handel/robinhood_radar/zustand.json
+Agenten/Handel/robinhood_radar/handelsjournal.csv
+Agenten/Handel/trendwende_btc/zustand.json
+Agenten/Handel/trendwende_btc/handelsjournal.csv
+!Agenten/Handel/omnitrade/*.py
+!Agenten/Handel/omnitrade/*.md
+!Agenten/Handel/omnitrade/wachen.json
+!Agenten/Handel/omnitrade/tests/*.py
+!Agenten/Handel/omnitrade/strategien/*.omni
+!Agenten/Handel/omnitrade_futures/*.py
+!Agenten/Handel/omnitrade_futures/*.md
+!Agenten/Handel/omnitrade_futures/wachen.json
+!Agenten/Handel/omnitrade_futures/tests/*.py
+Agenten/Handel/omnitrade_futures/zustand.json
+Agenten/Handel/omnitrade_futures/handelsjournal.csv
+Agenten/Handel/omnitrade/zustand.json
+Agenten/Handel/omnitrade/handelsjournal.csv
+Agenten/Handel/moondev_topmovers/zustand.json
+Agenten/Handel/moondev_topmovers/handelsjournal.csv
+!Agenten/Handel/moondev_signalwelle/*.py
+!Agenten/Handel/moondev_signalwelle/*.md
+!Agenten/Handel/moondev_signalwelle/wachen.json
+!Agenten/Handel/moondev_signalwelle/tests/*.py
+Agenten/Handel/moondev_signalwelle/zustand.json
+Agenten/Handel/moondev_signalwelle/handelsjournal.csv
+!Agenten/Handel/moondev_marktlage/*.py
+!Agenten/Handel/moondev_marktlage/*.md
+# Nur die Wachen sind Konfiguration von Hand - zustand.json und
+# zustand.mittel.json schreibt jeder Lauf und bleiben gesperrt.
+!Agenten/Handel/moondev_marktlage/wachen.json
+!Agenten/Handel/moondev_marktlage/tests/*.py
+Agenten/Handel/moondev_marktlage/zustand.json
+Agenten/Handel/moondev_marktlage/handelsjournal.csv
+# IV-WAND-SPUR (17.09.2026): eigener Ordner, Code/Wachen/README/Tests frei,
+# Zustand und Journal gesperrt.
+!Agenten/Handel/iv_wand/*.py
+!Agenten/Handel/iv_wand/*.md
+# Nur die Wachen sind Konfiguration von Hand - zustand.json und
+# zustand.mittel.json schreibt jeder Lauf und bleiben gesperrt.
+!Agenten/Handel/iv_wand/wachen.json
+!Agenten/Handel/iv_wand/tests/*.py
+Agenten/Handel/iv_wand/zustand.json
+Agenten/Handel/iv_wand/handelsjournal.csv
+# SPRACHMODELL-SPUREN (17.09.2026): eigener Ordner je Spur, Code/Wachen/README/
+# Tests frei, Zustand und Journal gesperrt. Die drei teilen sich eine Datei
+# (Handel/llm_lokal.py, Handel/llm_probe.py) - beide sind freigegeben, sonst
+# fehlte im Klon die halbe Spur.
+!Agenten/Handel/llm_lokal.py
+!Agenten/Handel/llm_probe.py
+!Agenten/Handel/moondev_whale/*.py
+!Agenten/Handel/moondev_whale/*.md
+# Nur die Wachen sind Konfiguration von Hand - zustand.json und
+# zustand.mittel.json schreibt jeder Lauf und bleiben gesperrt.
+!Agenten/Handel/moondev_whale/wachen.json
+!Agenten/Handel/moondev_whale/tests/*.py
+Agenten/Handel/moondev_whale/zustand.json
+Agenten/Handel/moondev_whale/handelsjournal.csv
+!Agenten/Handel/moondev_liquidation/*.py
+!Agenten/Handel/moondev_liquidation/*.md
+# Nur die Wachen sind Konfiguration von Hand - zustand.json und
+# zustand.mittel.json schreibt jeder Lauf und bleiben gesperrt.
+!Agenten/Handel/moondev_liquidation/wachen.json
+!Agenten/Handel/moondev_liquidation/tests/*.py
+Agenten/Handel/moondev_liquidation/zustand.json
+Agenten/Handel/moondev_liquidation/handelsjournal.csv
+!Agenten/Handel/moondev_sentiment/*.py
+!Agenten/Handel/moondev_sentiment/*.md
+# Nur die Wachen sind Konfiguration von Hand - zustand.json und
+# zustand.mittel.json schreibt jeder Lauf und bleiben gesperrt.
+!Agenten/Handel/moondev_sentiment/wachen.json
+!Agenten/Handel/moondev_sentiment/tests/*.py
+Agenten/Handel/moondev_sentiment/zustand.json
+Agenten/Handel/moondev_sentiment/handelsjournal.csv
+
+# MOONDEV_SNIPER (19.09.2026): neue Solana-Launches (Pump.fun), eigener
+# Ordner, Code/Wachen/README/Tests frei, Zustand und Journal gesperrt.
+!Agenten/Handel/moondev_sniper/*.py
+!Agenten/Handel/moondev_sniper/*.md
+# Nur die Wachen sind Konfiguration von Hand - zustand.json und
+# zustand.mittel.json schreibt jeder Lauf und bleiben gesperrt.
+!Agenten/Handel/moondev_sniper/wachen.json
+!Agenten/Handel/moondev_sniper/tests/*.py
+Agenten/Handel/moondev_sniper/zustand.json
+Agenten/Handel/moondev_sniper/handelsjournal.csv
+
+# Handkopien. Sie waren der Ersatz fuer fehlende Versionsverwaltung - ab jetzt
+# macht Git das. Die vorhandenen bleiben liegen, neue braucht es nicht mehr.
+*.bak-*
+
+# Fremd-Repos, die direkt im Vault-Baum liegen (geklonte Arbeitskopien). Sie
+# bringen ein eigenes .git mit; Git nimmt sie sonst als Submodul-Verweis auf
+# (gemessen 06.09.2026: MaxHirn/skills/, MaxHirn/CLIProxyAPI/,
+# Agenten/Handel/OpenAlice/). Ein solcher Verweis speichert nur einen fremden
+# Commit-Hash - beim Auschecken faende sich dort ein leerer Ordner. Sie sind
+# ohnehin aus Git reproduzierbar (Klon der Quellen unter Documents/GitHub/).
+# Der Unterordner-Freigabe-Mechanismus (!*/) macht sie sonst begehbar und
+# git status meldet sie als "??" - das Rauschen verdeckt die echten Zeilen.
+MaxHirn/skills/
+MaxHirn/CLIProxyAPI/
+Agenten/Handel/OpenAlice/
+# NautilusTrader-Node. Er bringt einen eigenen, gewachsenen Git-Verlauf mit
+# (vier Commits vom 07.-09.09.2026) und 558 MB .venv. Im Vault-Repo waere er
+# nur ein Submodul-Hash; seine Vorgeschichte steht in seinem eigenen .git.
+# Er liegt seit 12.09.2026 hier statt in Werkstatt/, weil er dort bei jedem
+# Aufraeumen verschwindet und in keiner Sicherung war.
+Agenten/Handel/nautilus/
+# Rust-KI-Referenz-Workspace (Zwei-Ebenen-Architektur, vadim.blog). Bewusst
+# NEBEN nautilus/ - der Node hat sein eigenes .git, dieser Ordner ist Teil
+# von BrainFiles. Nur die Textebene; target/ und .venv bleiben gesperrt.
+!Agenten/Handel/nautilus-rust/Cargo.toml
+!Agenten/Handel/nautilus-rust/Cargo.lock
+!Agenten/Handel/nautilus-rust/*.md
+!Agenten/Handel/nautilus-rust/*.ps1
+!Agenten/Handel/nautilus-rust/*/Cargo.toml
+!Agenten/Handel/nautilus-rust/*/src/*.rs
+!Agenten/Handel/docs/
+!Agenten/Handel/docs/design/
+!Agenten/Handel/docs/design/*.md
+!Agenten/Handel/filter_studie_ergebnis.json
+!Agenten/Handel/docs/plans/
+!Agenten/Handel/docs/plans/*.md
+!Agenten/Handel/nautilus_kraken/*.py
+!Agenten/Handel/nautilus_kraken/*.md
+!Agenten/Handel/nautilus_kraken/wachen.json
+!Agenten/Handel/nautilus_kraken/wachen.futures.json
+!Agenten/Handel/nautilus_kraken/tests/*.py
+# nautilus_emacross (03.10.2026): der EMA-Cross aus nautilus_trader als
+# eigene Papierspur. Vier Freigaben je Spur, sonst ist der Ordner still
+# unsichtbar - und eine Spur, die nicht im Git liegt, ist beim naechsten
+# Ausfall einfach weg.
+!Agenten/Handel/nautilus_emacross/*.py
+!Agenten/Handel/nautilus_emacross/*.md
+!Agenten/Handel/nautilus_emacross/wachen.json
+!Agenten/Handel/nautilus_emacross/tests/*.py
+Agenten/Handel/nautilus_emacross/zustand.json
+Agenten/Handel/nautilus_emacross/handelsjournal.csv
+Agenten/Handel/nautilus_emacross/signal_queue.json
+Agenten/Handel/nautilus_kraken/zustand.json
+Agenten/Handel/nautilus_kraken/zustand.futures.json
+Agenten/Handel/nautilus_kraken/handelsjournal.csv
+Agenten/Handel/nautilus_kraken/handelsjournal.futures.csv
+auswertung-stand.json
+auswertung-alle-stand.json
+kraken-lockout-stand.json
+!Agenten/Handel/bt_opt/
+!Agenten/Handel/bt_opt/*.py
+!Agenten/Handel/bt_opt/*.json
+# MARKTBREITE (25.09.2026, Auftrag Max "Breite als Reihe"): das Werkzeug ist
+# ein Hauswerkzeug wie marktdaten.py, dazu Wache und Test unter
+# Agenten/Hermes/scripts (dort ist **/*.py schon freigegeben). Die REIHE
+# (breite-reihe.jsonl) bleibt ausdruecklich gesperrt - sie waechst taeglich und
+# ist Laufzeitstand wie die Handelsjournale. Die Sicherung nach G:/Q: nimmt sie
+# trotzdem mit; dafuer ist git nicht noetig.
+!Agenten/Werkzeuge/breite.py
+Agenten/Werkzeuge/breite-reihe.jsonl
+
+# Zweitklon der parallelen Sitzung in der Wurzel (gehoert nach Werkstatt/Repos/):
+/kraken-cli/
+
+# Arbeitsbaeume der Sitzungs-Oberflaeche (Claude Code Desktop) in der Wurzel:
+# .claude/worktrees/<name>/ ist ein VOLLSTAENDIGER Klon mit eigenem .git fuer
+# eine parallele Sitzung - dieselbe Falle wie bei den Fremd-Repos oben
+# (gemessen 29.09.2026: .claude/worktrees/tag-troubleshoot-config-guide-cf780d/).
+# Ein eingebettetes Repo wird nie versioniert.
+.claude/worktrees/
+
+# ai4trade.ai (Handel/ai4trade/): Signalplattform mit PAPIERhandel, kein
+# Orderweg und kein Boersenzugang - der Agent HermesMax ist dort angemeldet
+# (agent_id 25970). Code, Doku und Tests gehoeren in den Verlauf; die .env mit
+# der Kennung bleibt gesperrt (**/.env, Zeile 265) und der Zustand des
+# Heartbeat-Pollers (cache/) ist Laufzeitstand.
+!Agenten/Handel/ai4trade/*.py
+!Agenten/Handel/ai4trade/*.md
+!Agenten/Handel/ai4trade/skill/**
+# Dieselbe Falle wie bei scanner/tests: Zeile 20 faengt Unterordner mit
+# ein - die Tests brauchen eine EIGENE Freigabezeile.
+!Agenten/Handel/ai4trade/tests/*.py
+
+# Wurzel-Aufrufer fuer omnitrade (funktioniert aus jedem Verzeichnis): ohne
+# Argument den Stand lesen, mit "start" den Demo-Lauf beginnen - mit Pruefung,
+# dass nie zwei Laeufe gleichzeitig gehen (zwei Laeufe ordern doppelt).
+!/omnitrade.cmd
+
+# Klassik-Spuren (30.09.2026)
+!Agenten/Handel/klassik_sma/*.py
+!Agenten/Handel/klassik_sma/*.md
+!Agenten/Handel/klassik_sma/wachen.json
+Agenten/Handel/klassik_sma/zustand.json
+Agenten/Handel/klassik_sma/handelsjournal.csv
+!Agenten/Handel/klassik_ema/*.py
+!Agenten/Handel/klassik_ema/*.md
+!Agenten/Handel/klassik_ema/wachen.json
+Agenten/Handel/klassik_ema/zustand.json
+Agenten/Handel/klassik_ema/handelsjournal.csv
+!Agenten/Handel/klassik_macd/*.py
+!Agenten/Handel/klassik_macd/*.md
+!Agenten/Handel/klassik_macd/wachen.json
+Agenten/Handel/klassik_macd/zustand.json
+Agenten/Handel/klassik_macd/handelsjournal.csv
+!Agenten/Handel/klassik_bollinger/*.py
+!Agenten/Handel/klassik_bollinger/*.md
+!Agenten/Handel/klassik_bollinger/wachen.json
+Agenten/Handel/klassik_bollinger/zustand.json
+Agenten/Handel/klassik_bollinger/handelsjournal.csv
+!Agenten/Handel/klassik_donchian/*.py
+!Agenten/Handel/klassik_donchian/*.md
+!Agenten/Handel/klassik_donchian/wachen.json
+Agenten/Handel/klassik_donchian/zustand.json
+Agenten/Handel/klassik_donchian/handelsjournal.csv
+!Agenten/Handel/klassik_rsi/*.py
+!Agenten/Handel/klassik_rsi/*.md
+!Agenten/Handel/klassik_rsi/wachen.json
+Agenten/Handel/klassik_rsi/zustand.json
+Agenten/Handel/klassik_rsi/handelsjournal.csv
+!Agenten/Handel/klassik_rsi2/*.py
+!Agenten/Handel/klassik_rsi2/*.md
+!Agenten/Handel/klassik_rsi2/wachen.json
+Agenten/Handel/klassik_rsi2/zustand.json
+Agenten/Handel/klassik_rsi2/handelsjournal.csv
+!Agenten/Handel/klassik_donchian_trend/*.py
+!Agenten/Handel/klassik_donchian_trend/*.md
+!Agenten/Handel/klassik_donchian_trend/wachen.json
+Agenten/Handel/klassik_donchian_trend/zustand.json
+Agenten/Handel/klassik_donchian_trend/handelsjournal.csv
+!Agenten/Handel/klassik_sr_breaks/*.py
+!Agenten/Handel/klassik_sr_breaks/*.md
+!Agenten/Handel/klassik_sr_breaks/wachen.json
+Agenten/Handel/klassik_sr_breaks/zustand.json
+Agenten/Handel/klassik_sr_breaks/handelsjournal.csv
+!Agenten/Handel/klassik_pmax/*.py
+!Agenten/Handel/klassik_pmax/*.md
+!Agenten/Handel/klassik_pmax/wachen.json
+Agenten/Handel/klassik_pmax/zustand.json
+Agenten/Handel/klassik_pmax/handelsjournal.csv
+!Agenten/Handel/klassik_supertrend/*.py
+!Agenten/Handel/klassik_supertrend/*.md
+!Agenten/Handel/klassik_supertrend/wachen.json
+Agenten/Handel/klassik_supertrend/zustand.json
+Agenten/Handel/klassik_supertrend/handelsjournal.csv
+
+# LLM-Stunde (12.10.2026, Papierspur auf 1H mit LLM-Arm)
+!Agenten/Handel/llm_stunde/*.py
+!Agenten/Handel/llm_stunde/*.md
+!Agenten/Handel/llm_stunde/wachen.json
+!Agenten/Handel/llm_stunde/tests/*.py
+Agenten/Handel/llm_stunde/zustand*.json
+Agenten/Handel/llm_stunde/handelsjournal*.csv
+
+# Prophet-Signal-Spur (02.10.2026, CryptoPredictions-Papier)
+!Agenten/Handel/prophet_signal/*.py
+!Agenten/Handel/prophet_signal/*.md
+!Agenten/Handel/prophet_signal/wachen.json
+# fib_retrace: Fibonacci-Retracement-Papierspur
+!Agenten/Handel/fib_retrace/*.py
+!Agenten/Handel/fib_retrace/*.md
+!Agenten/Handel/fib_retrace/wachen.json
+!Agenten/Handel/fib_retrace/tests/*.py
+# fibonacci_retracement.py (Werkzeug, keine Spur)
+Agenten/Handel/prophet_signal/zustand.json
+Agenten/Handel/prophet_signal/handelsjournal.csv
+
+# --- FREMD-GRENZE (30.09.2026, Auftrag Max "code und struktur ueberall optimieren") ---
+# Die eine Quelle (JSON), ihr Leser (fremd.py), das Bestandswerkzeug und die
+# lesbare Anzeige. Zweck: Fremd-Material im eigenen Baum (OpenAlice, Klone,
+# stillgelegte Anlagen) wird BENANNT und nicht mitgezaehlt - eigener Code sind
+# 831 Dateien / 173.481 Zeilen, mit Fremdem 11.489 Dateien / 4,2 Mio. Zeilen.
+# Die Tests dazu liegen unter Agenten/Werkzeuge/tests und
+# Agenten/Werkzeuge/repos-zentrale/tests (dort schon freigegeben).
+!Agenten/FREMD-Liste.json
+# BEREICHS-BESITZ (04.10.2026): drei Bereiche mit je einem Besitzer, damit drei
+# Sitzungen nicht mehr still uebereinander schreiben. Das Register, sein Leser
+# und die Tests sind EINE Sache - ohne die Zeilen liegt das Register nur auf der
+# Platte und die Regel im AGENTS.md verweist ins Leere.
+!Agenten/BEREICHE.json
+!Agenten/Werkzeuge/bereiche.py
+!.githooks/pre-commit
+!Agenten/FREMD.md
+!Agenten/Werkzeuge/fremd.py
+!Agenten/Werkzeuge/bestand.py
+# Wurzel-Aufrufer fuer den Bestand (30.09.2026): aus jedem Verzeichnis
+!/bestand.cmd
+# --- jevgrep (30.09.2026, Auftrag Max "jevgrep installieren wenn sinnvoll") ---
+# Haus-Installation des Fremd-Werkzeugs (MIT) in Agenten/Werkzeuge/jevgrep:
+# npm-Paket @dzhng/jevgrep 0.7.0 in node_modules, Aufruf ueber jg.cmd bzw. den
+# Wurzel-Aufrufer jevgrep.cmd. Versioniert werden nur die drei eigenen Dateien
+# (README, Aufrufer, Test) - node_modules ist reproduzierbar aus package.json.
+# Die Regel steht NACH der allgemeinen Sperre, sonst greift sie nicht.
+!Agenten/Werkzeuge/jevgrep/README.md
+!Agenten/Werkzeuge/jevgrep/jg.cmd
+!Agenten/Werkzeuge/jevgrep/test_jevgrep.py
+!Agenten/Werkzeuge/jevgrep/von_opencode_anmelden.py
+!Agenten/Werkzeuge/jevgrep/sonde_zen.py
+!Agenten/Werkzeuge/jevgrep/jev_bruecke.py
+!Agenten/Werkzeuge/jevgrep/test_jev_bruecke.py
+!Agenten/Werkzeuge/jevgrep/messung_lokal.py
+!Agenten/Werkzeuge/jevgrep/pruefe_bruecke.py
+!Agenten/Werkzeuge/jevgrep/sonde_mercury.py
+!Agenten/Werkzeuge/jevgrep/bruecke-mercury.cmd
+!Agenten/Werkzeuge/jevgrep/vorpruefung.py
+!Agenten/Werkzeuge/jevgrep/jg_sicher.py
+!Agenten/Werkzeuge/jevgrep/test_vorpruefung.py
+!Agenten/Werkzeuge/jevgrep/package.json
+!Agenten/Werkzeuge/jevgrep/package-lock.json
+!/jevgrep.cmd
+Agenten/Werkzeuge/jevgrep/node_modules/
+Agenten/Werkzeuge/jevgrep/__pycache__/
+
+# --- Laufzeitstand der Zentrale (30.09.2026) --------------------------------
+# `einstellungen.json` merkt Schriftgroesse, Dichte, Fenstergroesse und Filter
+# der Repos-Zentrale. Es aendert sich bei JEDER Bedienung (jeder Klick auf einen
+# Chip) - ein versionierter Stand waere in jedem Commit eine Phantom-Aenderung.
+# Die Regel steht NACH der Freigabe `!...repos-zentrale/*.json` (Zeile 616):
+# spaetere Regel gewinnt. Gegenprobe: git check-ignore -v <pfad>.
+Agenten/Werkzeuge/repos-zentrale/einstellungen.json
+
+# --- Routing-Plan (Kanban t_c2e6fe0c, 04.10.2026) ------------------------
+# Der Ordner ist gesperrt, sonst waere die Freigabe der *.py wirkungslos
+# (das Haus arbeitet mit 'erst alles ignorieren, dann einzeln freigeben').
+Agenten/Werkzeuge/routing-plan/agenten/
+Agenten/Werkzeuge/routing-plan/werkstatt/
+!Agenten/Werkzeuge/routing-plan/
+!Agenten/Werkzeuge/routing-plan/*.py
+!Agenten/Werkzeuge/routing-plan/README.md
+
+# Wurzel-Aufrufer fuer die Modelllisten der Bot-Profile (CRLF, kein LF):
+# liegt NACH allen Sperrregeln, weil die spaetere Regel gewinnt.
+!/profil-listen.cmd
