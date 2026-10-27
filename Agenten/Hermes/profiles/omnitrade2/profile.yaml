@@ -1,0 +1,7 @@
+description: "Dieses Profil betreut das Repository omnitrade, eine in Rust entwickelte, headless-first Handelsplattform mit Multi-Exchange-Anbindung, Paper-Trading und Backtesting, einer Strategie-DSL, CLI und Desktop-Oberfläche."
+ui_meta:
+  hermes-bots:
+    sectionId: sec-mvgqbvqt-tnilh
+    sectionName: AI TRADING
+_ui_meta_revisions:
+  hermes-bots: 1

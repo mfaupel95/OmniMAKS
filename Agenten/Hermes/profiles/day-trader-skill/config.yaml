@@ -1,0 +1,11 @@
+model:
+  default: gpt-5.6-terra
+  provider: openai-codex
+_config_version: 51
+terminal:
+  cwd: C:\Users\faupe\Documents\BrainFiles\Werkstatt\day-trader-skill
+telemetry:
+  shared_metrics:
+    enabled: false
+    send: false
+    offer_version: 2

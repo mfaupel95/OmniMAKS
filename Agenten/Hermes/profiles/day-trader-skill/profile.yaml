@@ -1,0 +1,8 @@
+description: 'Day-Trader-Skill: US-Aktien-Setups, Nachrichten und Papierauswertung aus Werkstatt/day-trader-skill; keine Broker-Orderausführung.'
+description_auto: false
+ui_meta:
+  hermes-bots:
+    sectionId: sec-mu6udlsc-3xlc8
+    sectionName: Trades
+_ui_meta_revisions:
+  hermes-bots: 1
