@@ -1,0 +1,8 @@
+description: 'Moon-Dev-Repo-Bot: betreut Werkstatt/<repo>'
+description_auto: false
+ui_meta:
+  hermes-bots:
+    sectionId: sec-mvgqdzcf-eh2ae
+    sectionName: Backtesting
+_ui_meta_revisions:
+  hermes-bots: 2
