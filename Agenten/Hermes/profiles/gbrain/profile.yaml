@@ -1,0 +1,11 @@
+description: "Dieses Profil betreut GBrain, eine portable Agenten-Gedächtnisplattform, die explizite Fakten mit Quellen speichert, Korrekturen unterstützt und Wissen über mehrere Agenten hinweg verfügbar macht."
+description_auto: false
+ui_meta:
+  hermes-bots:
+    groups:
+      - Findusarbeitus, Basic Memory, Everything Claude Code, Gbrain, Ne
+    group: Findusarbeitus, Basic Memory, Everything Claude Code, Gbrain, Ne
+    sectionId: sec-mvical33-vm6qx
+    sectionName: DATA
+_ui_meta_revisions:
+  hermes-bots: 3

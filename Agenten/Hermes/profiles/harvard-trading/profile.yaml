@@ -1,0 +1,11 @@
+description: "Dieses Profil betreut das Open-Source-Lernrepository Harvard Algorithmic Trading with AI, das algorithmischen Handel anhand des RBI-Ablaufs Research, Backtest und Implementierung mit Anleitungen und Codebeispielen vermittelt."
+description_auto: false
+ui_meta:
+  hermes-bots:
+    groups:
+      - Grill Me, Awesome Systematic Trading, Agent Trade Kit, Harvard T
+    group: Grill Me, Awesome Systematic Trading, Agent Trade Kit, Harvard T
+    sectionId: sec-mvgqbvqt-tnilh
+    sectionName: AI TRADING
+_ui_meta_revisions:
+  hermes-bots: 2

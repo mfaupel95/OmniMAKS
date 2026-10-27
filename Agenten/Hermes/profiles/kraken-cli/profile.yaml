@@ -1,0 +1,7 @@
+description: "Dieses Profil betreut das Repository kraken-cli, eine KI-fähige Kommandozeile für die Kraken-API mit Marktinformationen sowie Paper- und Live-Trading über mehrere Anlageklassen und integriertem MCP-Server."
+ui_meta:
+  hermes-bots:
+    sectionId: sec-mu6udlsc-3xlc8
+    sectionName: Trades
+_ui_meta_revisions:
+  hermes-bots: 1
