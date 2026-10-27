@@ -1,0 +1,1395 @@
+model:
+  default: inclusionai/ling-3.0-flash-fin:free
+  provider: nous
+  base_url: https://inference-api.nousresearch.com/v1
+  api_mode: chat_completions
+providers:
+  nous:
+    models:
+      anthropic/claude-opus-4.1: {}
+      anthropic/claude-opus-4.1:batch: {}
+      anthropic/claude-opus-4.5: {}
+      anthropic/claude-opus-4.5:batch: {}
+      anthropic/claude-opus-4.6: {}
+      anthropic/claude-opus-4.6:batch: {}
+      anthropic/claude-opus-4.7: {}
+      anthropic/claude-opus-4.7:batch: {}
+      anthropic/claude-opus-4.8: {}
+      anthropic/claude-opus-4.8:batch: {}
+      anthropic/claude-opus-5: {}
+      anthropic/claude-opus-5.5: {}
+      anthropic/claude-opus-5.5:batch: {}
+      anthropic/claude-opus-5:batch: {}
+      ~anthropic/claude-opus-latest: {}
+      amazon/nova-pro-v1: {}
+      deepseek/deepseek-v4-pro: {}
+      deepseek/deepseek-v4-pro-0813: {}
+      google/gemini-2.5-pro: {}
+      google/gemini-2.5-pro-preview: {}
+      google/gemini-2.5-pro:batch: {}
+      google/gemini-3.1-pro-preview: {}
+      google/gemini-3.1-pro-preview-customtools: {}
+      google/gemini-3.1-pro-preview:batch: {}
+      kwaipilot/kat-coder-pro-v2.5: {}
+      nex-agi/nex-n2.5-pro: {}
+      openai/gpt-5-pro: {}
+      openai/gpt-5-pro:batch: {}
+      openai/gpt-5.2-pro: {}
+      openai/gpt-5.2-pro:batch: {}
+      openai/gpt-5.4-pro: {}
+      openai/gpt-5.4-pro:batch: {}
+      openai/gpt-5.5-pro: {}
+      openai/gpt-5.5-pro:batch: {}
+      openai/gpt-5.6-luna-pro: {}
+      openai/gpt-5.6-luna-pro:batch: {}
+      openai/gpt-5.6-sol-pro: {}
+      openai/gpt-5.6-sol-pro:batch: {}
+      openai/gpt-5.6-terra-pro: {}
+      openai/gpt-5.6-terra-pro:batch: {}
+      openai/gpt-6-astra-pro: {}
+      openai/gpt-6-astra-pro-fast: {}
+      openai/gpt-6-astra-pro-flex: {}
+      openai/gpt-6-astra-pro:batch: {}
+      openai/gpt-6-luna-pro: {}
+      openai/gpt-6-luna-pro:batch: {}
+      openai/gpt-6-sol-pro: {}
+      openai/gpt-6-sol-pro:batch: {}
+      openai/gpt-6.1-sol-pro: {}
+      openai/gpt-6.1-sol-pro:batch: {}
+      openai/o3-pro: {}
+      upstage/solar-pro-3: {}
+      upstage/solar-pro4: {}
+      upstage/solar-pro4:free: {}
+      xiaomi/mimo-v2.5-pro: {}
+      xiaomi/mimo-v2.6-pro: {}
+      xiaomi/mimo-v2.6-pro-ultraspeed: {}
+      ~deepseek/deepseek-pro-latest: {}
+      ~google/gemini-pro-latest: {}
+      aion-labs/aion-2.0: {}
+      aion-labs/aion-3.0: {}
+      aion-labs/aion-3.0-mini: {}
+      aion-labs/aion-3.5: {}
+      aion-labs/aion-3.5-mini: {}
+      amazon/nova-2-lite-v1: {}
+      amazon/nova-lite-v1: {}
+      amazon/nova-micro-v1: {}
+      amazon/nova-premier-v1: {}
+      anthropic/claude-fable-5: {}
+      anthropic/claude-fable-5.1: {}
+      anthropic/claude-fable-5.1:batch: {}
+      anthropic/claude-fable-5:batch: {}
+      anthropic/claude-haiku-4.5: {}
+      anthropic/claude-haiku-4.5:batch: {}
+      arcee-ai/trinity-large-thinking: {}
+      baai/bge-base-en-v1.5: {}
+      baai/bge-large-en-v1.5: {}
+      baai/bge-m3: {}
+      bytedance-seed/seed-1.6: {}
+      bytedance-seed/seed-1.6-flash: {}
+      bytedance-seed/seed-2-1-turbo: {}
+      bytedance-seed/seed-2.0-code: {}
+      bytedance-seed/seed-2.0-lite: {}
+      bytedance-seed/seed-2.0-mini: {}
+      cohere/command-a-plus: {}
+      cohere/command-r-08-2024: {}
+      cohere/command-r-plus-08-2024: {}
+      deepseek/deepseek-chat: {}
+      deepseek/deepseek-chat-v3-0324: {}
+      deepseek/deepseek-chat-v3.1: {}
+      deepseek/deepseek-r1: {}
+      deepseek/deepseek-r1-0528: {}
+      deepseek/deepseek-v3.1-terminus: {}
+      deepseek/deepseek-v3.2: {}
+      deepseek/deepseek-v3.2-exp: {}
+      deepseek/deepseek-v4-flash: {}
+      deepseek/deepseek-v4-flash-0731: {}
+      deepseek/deepseek-v4-flash-0731:US: {}
+      deepseek/deepseek-v4-flash-vision-exp: {}
+      deepseek/deepseek-v4.1-flash: {}
+      deepseek/deepseek-v4.1-flash:US: {}
+      deepseek/deepseek-v4.1-flash:batch: {}
+      fireworks/ember-1: {}
+      google/gemini-2.5-flash: {}
+      google/gemini-2.5-flash-lite: {}
+      google/gemini-2.5-flash-lite:batch: {}
+      google/gemini-2.5-flash:batch: {}
+      google/gemini-3-flash-preview: {}
+      google/gemini-3-flash-preview:batch: {}
+      google/gemini-3.1-flash-lite: {}
+      google/gemini-3.1-flash-lite-preview: {}
+      google/gemini-3.1-flash-lite:batch: {}
+      google/gemini-3.5-flash: {}
+      google/gemini-3.5-flash-lite: {}
+      google/gemini-3.5-flash-lite:batch: {}
+      google/gemini-3.5-flash:batch: {}
+      google/gemini-3.6-flash: {}
+      google/gemini-3.6-flash:batch: {}
+      google/gemini-3.7-flash: {}
+      google/gemini-3.7-flash:batch: {}
+      google/gemini-3.8-flash: {}
+      google/gemini-3.8-flash:batch: {}
+      google/gemini-embedding-001: {}
+      google/gemini-embedding-2: {}
+      google/gemini-embedding-2-preview: {}
+      google/gemini-embedding-2:batch: {}
+      google/gemma-3-12b-it: {}
+      google/gemma-3-27b-it: {}
+      google/gemma-4-26b-a4b-it: {}
+      google/gemma-4-31b-it: {}
+      ibm-granite/granite-4.2-8b: {}
+      inception/mercury-2: {}
+      inception/mercury-2.5: {}
+      inclusionai/ling-3.0-flash: {}
+      inclusionai/ling-3.0-flash-fin: {}
+      inclusionai/ling-3.0-flash-fin:free: {}
+      inclusionai/ling-3.0-flash-sante:free: {}
+      inclusionai/ling-3.0-flash-vl: {}
+      intfloat/e5-base-v2: {}
+      intfloat/e5-large-v2: {}
+      intfloat/multilingual-e5-large: {}
+      meituan/longcat-2.0: {}
+      meituan/longcat-2.0:free: {}
+      meituan/longcat-2.5-preview:free: {}
+      meta-llama/llama-3.1-70b-instruct: {}
+      meta-llama/llama-3.1-8b-instruct: {}
+      meta-llama/llama-3.3-70b-instruct: {}
+      meta-llama/llama-4-maverick: {}
+      meta-llama/llama-4-scout: {}
+      meta/muse-glimmer-30b: {}
+      meta/muse-spark-1.1: {}
+      meta/muse-spark-1.2: {}
+      meta/muse-spark-1.2-contributor: {}
+      meta/muse-spark-1.3: {}
+      meta/muse-spark-1.3-contributor: {}
+      minimax/minimax-m1: {}
+      minimax/minimax-m2: {}
+      minimax/minimax-m2.1: {}
+      minimax/minimax-m2.5: {}
+      minimax/minimax-m2.7: {}
+      minimax/minimax-m3: {}
+      mistralai/codestral-2508: {}
+      mistralai/codestral-2508:batch: {}
+      mistralai/codestral-embed-2505: {}
+      mistralai/devstral-2512: {}
+      mistralai/ministral-14b-2512: {}
+      mistralai/ministral-3b-2512: {}
+      mistralai/ministral-8b-2512: {}
+      mistralai/ministral-8b-2512:batch: {}
+      mistralai/mistral-embed-2312: {}
+      mistralai/mistral-large: {}
+      mistralai/mistral-large-2407: {}
+      mistralai/mistral-large-2512: {}
+      mistralai/mistral-large-2512:batch: {}
+      mistralai/mistral-medium-3: {}
+      mistralai/mistral-medium-3-5: {}
+      mistralai/mistral-medium-3-5:batch: {}
+      mistralai/mistral-medium-3.1: {}
+      mistralai/mistral-medium-3.1:batch: {}
+      mistralai/mistral-nemo: {}
+      mistralai/mistral-saba: {}
+      mistralai/mistral-small-2603: {}
+      mistralai/mistral-small-2603:batch: {}
+      mistralai/mistral-small-3.1-24b-instruct: {}
+      mistralai/mistral-small-3.2-24b-instruct: {}
+      mistralai/mixtral-8x22b-instruct: {}
+      mistralai/voxtral-small-24b-2507: {}
+      moonshotai/kimi-k2: {}
+      moonshotai/kimi-k2-0905: {}
+      moonshotai/kimi-k2-thinking: {}
+      moonshotai/kimi-k2.5: {}
+      moonshotai/kimi-k2.6: {}
+      moonshotai/kimi-k2.7-code: {}
+      moonshotai/kimi-k3: {}
+      moonshotai/kimi-k3:US: {}
+      moonshotai/kimi-k3:batch: {}
+      nvidia/nemotron-3-nano-30b-a3b: {}
+      nvidia/nemotron-3-super-120b-a12b: {}
+      nvidia/nemotron-3-ultra-550b-a55b: {}
+      nvidia/nemotron-3.5-lightning: {}
+      openai/gpt-3.5-turbo: {}
+      openai/gpt-3.5-turbo-0613: {}
+      openai/gpt-3.5-turbo-16k: {}
+      openai/gpt-3.5-turbo:batch: {}
+      openai/gpt-4: {}
+      openai/gpt-4-turbo: {}
+      openai/gpt-4-turbo:batch: {}
+      openai/gpt-4.1: {}
+      openai/gpt-4.1-mini: {}
+      openai/gpt-4.1-mini:batch: {}
+      openai/gpt-4.1-nano: {}
+      openai/gpt-4.1-nano:batch: {}
+      openai/gpt-4.1:batch: {}
+      openai/gpt-4o: {}
+      openai/gpt-4o-2024-05-13: {}
+      openai/gpt-4o-2024-08-06: {}
+      openai/gpt-4o-2024-11-20: {}
+      openai/gpt-4o-mini: {}
+      openai/gpt-4o-mini-2024-07-18: {}
+      openai/gpt-4o-mini:batch: {}
+      openai/gpt-4o:batch: {}
+      openai/gpt-5: {}
+      openai/gpt-5-mini: {}
+      openai/gpt-5-mini:batch: {}
+      openai/gpt-5-nano: {}
+      openai/gpt-5-nano:batch: {}
+      openai/gpt-5.1: {}
+      openai/gpt-5.1-codex: {}
+      openai/gpt-5.1-codex-max: {}
+      openai/gpt-5.1-codex-mini: {}
+      openai/gpt-5.1:batch: {}
+      openai/gpt-5.2: {}
+      openai/gpt-5.2-chat: {}
+      openai/gpt-5.2-codex: {}
+      openai/gpt-5.2:batch: {}
+      openai/gpt-5.3-codex: {}
+      openai/gpt-5.4: {}
+      openai/gpt-5.4-mini: {}
+      openai/gpt-5.4-mini:batch: {}
+      openai/gpt-5.4-nano: {}
+      openai/gpt-5.4-nano:batch: {}
+      openai/gpt-5.4:batch: {}
+      openai/gpt-5.5: {}
+      openai/gpt-5.5:batch: {}
+      openai/gpt-5.6-luna: {}
+      openai/gpt-5.6-luna:batch: {}
+      openai/gpt-5.6-sol: {}
+      openai/gpt-5.6-sol:batch: {}
+      openai/gpt-5.6-terra: {}
+      openai/gpt-5.6-terra:batch: {}
+      openai/gpt-5:batch: {}
+      openai/gpt-6-astra: {}
+      openai/gpt-6-astra-fast: {}
+      openai/gpt-6-astra-flex: {}
+      openai/gpt-6-astra:batch: {}
+      openai/gpt-6-luna: {}
+      openai/gpt-6-luna:batch: {}
+      openai/gpt-6-sol: {}
+      openai/gpt-6-sol:batch: {}
+      openai/gpt-6.1-sol: {}
+      openai/gpt-6.1-sol:batch: {}
+      openai/gpt-audio: {}
+      openai/gpt-audio-mini: {}
+      openai/gpt-chat-latest: {}
+      openai/gpt-oss-120b: {}
+      openai/gpt-oss-120b:batch: {}
+      openai/gpt-oss-20b: {}
+      openai/gpt-oss-20b:batch: {}
+      openai/gpt-oss-safeguard-20b: {}
+      openai/o1: {}
+      openai/o3: {}
+      openai/o3-mini: {}
+      openai/o3-mini-high: {}
+      openai/o3-mini:batch: {}
+      openai/o3:batch: {}
+      openai/o4-mini: {}
+      openai/o4-mini-high: {}
+      openai/o4-mini:batch: {}
+      openai/text-embedding-3-large: {}
+      openai/text-embedding-3-large:batch: {}
+      openai/text-embedding-3-small: {}
+      openai/text-embedding-3-small:batch: {}
+      openai/text-embedding-ada-002: {}
+      openai/text-embedding-ada-002:batch: {}
+      perceptron/perceptron-mk1.5: {}
+      perplexity/pplx-embed-v1-0.6b: {}
+      perplexity/pplx-embed-v1-4b: {}
+      poolside/laguna-s-2.1: {}
+      poolside/laguna-s-2.1:free: {}
+      poolside/laguna-xs-2.1: {}
+      poolside/laguna-xs-2.1:free: {}
+      prism-ml/ternary-bonsai-2-27b: {}
+      qwen/qwen-2.5-72b-instruct: {}
+      qwen/qwen-2.5-7b-instruct: {}
+      qwen/qwen-plus: {}
+      qwen/qwen-plus-2025-07-28: {}
+      qwen/qwen3-14b: {}
+      qwen/qwen3-235b-a22b: {}
+      qwen/qwen3-235b-a22b-2507: {}
+      qwen/qwen3-235b-a22b-thinking-2507: {}
+      qwen/qwen3-30b-a3b: {}
+      qwen/qwen3-30b-a3b-instruct-2507: {}
+      qwen/qwen3-30b-a3b-thinking-2507: {}
+      qwen/qwen3-32b: {}
+      qwen/qwen3-8b: {}
+      qwen/qwen3-coder: {}
+      qwen/qwen3-coder-30b-a3b-instruct: {}
+      qwen/qwen3-coder-flash: {}
+      qwen/qwen3-coder-next: {}
+      qwen/qwen3-coder-plus: {}
+      qwen/qwen3-embedding-4b: {}
+      qwen/qwen3-embedding-8b: {}
+      qwen/qwen3-max: {}
+      qwen/qwen3-max-thinking: {}
+      qwen/qwen3-next-80b-a3b-instruct: {}
+      qwen/qwen3-next-80b-a3b-thinking: {}
+      qwen/qwen3-vl-235b-a22b-instruct: {}
+      qwen/qwen3-vl-235b-a22b-thinking: {}
+      qwen/qwen3-vl-30b-a3b-instruct: {}
+      qwen/qwen3-vl-30b-a3b-thinking: {}
+      qwen/qwen3-vl-32b-instruct: {}
+      qwen/qwen3-vl-8b-instruct: {}
+      qwen/qwen3-vl-8b-thinking: {}
+      qwen/qwen3.5-122b-a10b: {}
+      qwen/qwen3.5-27b: {}
+      qwen/qwen3.5-35b-a3b: {}
+      qwen/qwen3.5-397b-a17b: {}
+      qwen/qwen3.5-9b: {}
+      qwen/qwen3.5-flash-02-23: {}
+      qwen/qwen3.5-plus-02-15: {}
+      qwen/qwen3.5-plus-20260420: {}
+      qwen/qwen3.6-27b: {}
+      qwen/qwen3.6-35b-a3b: {}
+      qwen/qwen3.6-flash: {}
+      qwen/qwen3.6-max-preview: {}
+      qwen/qwen3.6-plus: {}
+      qwen/qwen3.7-flash: {}
+      qwen/qwen3.7-max: {}
+      qwen/qwen3.7-plus: {}
+      qwen/qwen3.8-2.4t-a95b: {}
+      qwen/qwen3.8-27b: {}
+      qwen/qwen3.8-flash: {}
+      qwen/qwen3.8-max-0902: {}
+      qwen/qwen3.8-max-prime: {}
+      qwen/qwen3.8-omni-flash: {}
+      rekaai/reka-edge: {}
+      relace/relace-search: {}
+      sakana/fugu-max: {}
+      sakana/fugu-ultra: {}
+      sakana/fugu-ultra-v2: {}
+      sakana/sakana-namazu: {}
+      sao10k/l3.1-euryale-70b: {}
+      sentence-transformers/all-minilm-l12-v2: {}
+      sentence-transformers/all-minilm-l6-v2: {}
+      sentence-transformers/all-mpnet-base-v2: {}
+      sentence-transformers/multi-qa-mpnet-base-dot-v1: {}
+      sentence-transformers/paraphrase-minilm-l6-v2: {}
+      stepfun/step-3.5-flash: {}
+      stepfun/step-3.7-flash: {}
+      stepfun/step-3.7-flash:free: {}
+      tencent/hy3: {}
+      tencent/hy3-preview: {}
+      tencent/hy4-preview: {}
+      thenlper/gte-base: {}
+      thenlper/gte-large: {}
+      thinkingmachines/inkling: {}
+      thinkingmachines/inkling-small: {}
+      unbiased/pareto: {}
+      upstage/solar-mini4: {}
+      voyageai/voyage-4: {}
+      voyageai/voyage-4-large: {}
+      voyageai/voyage-4-lite: {}
+      voyageai/voyage-code-4: {}
+      voyageai/voyage-multimodal-3.5: {}
+      x-ai/grok-4.20: {}
+      x-ai/grok-4.3: {}
+      x-ai/grok-4.3:batch: {}
+      x-ai/grok-4.5: {}
+      x-ai/grok-4.6: {}
+      x-ai/grok-4.7: {}
+      x-ai/grok-build-0.1: {}
+      xiaomi/mimo-v2.5: {}
+      xiaomi/mimo-v2.6-flash: {}
+      z-ai/glm-4.5: {}
+      z-ai/glm-4.5-air: {}
+      z-ai/glm-4.5v: {}
+      z-ai/glm-4.6: {}
+      z-ai/glm-4.6v: {}
+      z-ai/glm-4.7: {}
+      z-ai/glm-4.7-flash: {}
+      z-ai/glm-5: {}
+      z-ai/glm-5-turbo: {}
+      z-ai/glm-5.1: {}
+      z-ai/glm-5.2: {}
+      z-ai/glm-5.3: {}
+      z-ai/glm-5.3-flash: {}
+      z-ai/glm-5.3-flash:US: {}
+      z-ai/glm-5.3-flash:batch: {}
+      z-ai/glm-5.3-flashx: {}
+      z-ai/glm-5.3-prime: {}
+      z-ai/glm-5.3:US: {}
+      z-ai/glm-5.3:batch: {}
+      z-ai/glm-5v-turbo: {}
+      ~anthropic/claude-fable-latest: {}
+      ~anthropic/claude-haiku-latest: {}
+      ~deepseek/deepseek-flash-latest: {}
+      ~deepseek/deepseek-v4-flash-latest: {}
+      ~google/gemini-flash-latest: {}
+      ~moonshotai/kimi-latest: {}
+      ~openai/gpt-astra-latest: {}
+      ~openai/gpt-luna-latest: {}
+      ~openai/gpt-mini-latest: {}
+      ~openai/gpt-sol-latest: {}
+      ~openai/gpt-terra-latest: {}
+      ~x-ai/grok-latest: {}
+      ~z-ai/glm-flash-latest: {}
+      ~z-ai/glm-latest: {}
+      anthropic/claude-sonnet-4: {}
+      anthropic/claude-sonnet-4.5: {}
+      anthropic/claude-sonnet-4.5:batch: {}
+      anthropic/claude-sonnet-4.6: {}
+      anthropic/claude-sonnet-4.6:batch: {}
+      anthropic/claude-sonnet-5: {}
+      anthropic/claude-sonnet-5.5: {}
+      anthropic/claude-sonnet-5.5:batch: {}
+      anthropic/claude-sonnet-5:batch: {}
+      ~anthropic/claude-sonnet-latest: {}
+  ollama-launch:
+    api: http://127.0.0.1:11434/v1
+    base_url: http://127.0.0.1:11434/v1
+    default_model: deepseek-r1:7b
+    discover_models: true
+    model: gemma-e4b-8k:latest
+    models:
+      - gemma-e4b-8k:latest
+      - gemma-e4b-8k:cpu
+      - deepseek-chat:latest
+      - glm4:9b
+      - qwen3.5:9b
+      - deepseek-reasoner:latest
+    name: Ollama
+  omniroute:
+    api: http://localhost:20128/v1
+    default_model: auto
+    name: OmniRoute
+    base_url: http://localhost:20128/v1
+    model: auto
+    discover_models: true
+    models:
+      auto/best-coding: {}
+      auto/best-reasoning: {}
+      auto/best-fast: {}
+      auto/best-vision: {}
+      auto/best-chat: {}
+      auto/best-coding-fast: {}
+      auto/pro-coding: {}
+      auto/pro-reasoning: {}
+      auto/pro-vision: {}
+      auto/pro-chat: {}
+      auto/pro-fast: {}
+      auto/coding: {}
+      auto/fast: {}
+      auto/chat: {}
+      auto/cheap: {}
+      auto/offline: {}
+      auto/smart: {}
+      auto/claude-opus: {}
+      auto/claude-sonnet: {}
+      auto/best-free: {}
+      auto/best-chaos: {}
+      auto/chaos: {}
+      auto/coding:fast: {}
+      auto/coding:cheap: {}
+      auto/coding:free: {}
+      auto/coding:pro: {}
+      auto/coding:reliable: {}
+      auto/reasoning: {}
+      auto/reasoning:pro: {}
+      auto/vision: {}
+      auto/multimodal: {}
+      auto/glm: {}
+      auto/minimax: {}
+      auto/mimo: {}
+      auto/zai: {}
+      auto/gemma: {}
+      auto/llama: {}
+      auto/gemini: {}
+      hermes-free-local: {}
+      ollama-local/embeddinggemma: {}
+      ollama-local/nomic-embed-text: {}
+      ollama-local/bge-m3: {}
+    key_env: HERMES_CUSTOM_OMNIROUTE_API_KEY
+fallback_providers:
+  # Ein Eintrag, der dem Hauptmodell entspricht, taugt nicht als Rueckfall - er
+  # faellt mit ihm aus. Gemessen am 04.10.2026 (echter Aufruf, Fenster aus
+  # agent/model_metadata.py):
+  #   deepseek/deepseek-v4-flash-0731  1.048.576   (1,1 s)
+  #   anthropic/claude-opus-5          1.000.000   (1,5 s)
+  #   google/gemini-3.1-flash-lite               (1,4 s, billiger Notausgang)
+  # Der llamacpp/Bonsai-Eintrag ist entfernt: der verwaltete llama-server auf 18434
+  # kann die ternaeren Gewichte nicht laden (Wissen/Hermes.md, 29.09.2026).
+  - provider: nous
+    model: deepseek/deepseek-v4-flash-0731
+  - provider: anthropic
+    model: claude-opus-5
+  - provider: openrouter
+    model: openrouter/nvidia/nemotron-3-ultra-550b-a55b:free
+    base_url: http://127.0.0.1:20128/v1
+  - provider: openrouter
+    model: openrouter/nvidia/nemotron-3-super-120b-a12b:free
+    base_url: http://127.0.0.1:20128/v1
+  - provider: openrouter
+    model: openrouter/nvidia/nemotron-3.5-lightning:free
+    base_url: http://127.0.0.1:20128/v1
+  - provider: nous
+    model: google/gemini-3.1-flash-lite
+  - provider: openrouter
+    model: thinkingmachines/inkling:free
+  - provider: nous
+    model: inclusionai/ling-3.0-flash-sante:free
+toolsets:
+  - hermes-cli
+database:
+  journal_mode: wal
+runtime:
+  nofile_soft_limit: 4096
+agent:
+  api_max_retries: 4
+  service_tier: auto
+  personalities: {}
+  reasoning_effort: high
+  verbose: false
+terminal:
+  backend: local
+  cwd: C:\Users\faupe\documents\BrainFiles\Agenten\Hermes
+  font_family: 'SauceCodePro Nerd Font'
+  timeout: 180
+  home_mode: auto
+  docker_forward_env:
+    - A2A_AGENT_NAME
+    - A2A_HOST
+    - A2A_PEER_TOKENS
+    - A2A_PORT
+    - AGENT_BROWSER_ENGINE
+    - ANTHROPIC_TOKEN
+    - BROWSER_INACTIVITY_TIMEOUT
+    - BROWSER_SESSION_TIMEOUT
+    - BROWSERBASE_ADVANCED_STEALTH
+    - BROWSERBASE_PROXIES
+    - GITHUB_TOKEN
+    - GOOGLE_API_KEY
+    - HANDEL_RISIKO
+    - HERMES_A2A_TOKEN
+    - HERMES_CUSTOM_127_0_0_1_20128_API_KEY
+    - HERMES_CUSTOM_LOCALHOST_20128_API_KEY
+    - HERMES_CUSTOM_OMNIROUTE_API_KEY
+    - HERMES_HOME
+    - HERMES_WRITE_SAFE_ROOT
+    - HF_TOKEN
+    - IMAGE_TOOLS_DEBUG
+    - MNEMOVERSE_API_KEY
+    - MOA_TOOLS_DEBUG
+    - OLLAMA_API_KEY
+    - OLLAMA_MODELS
+    - OPENAI_API_KEY
+    - OPENROUTER_API_KEY
+    - PHOTON_ALLOWED_USERS
+    - PHOTON_HOME_CHANNEL
+    - PHOTON_PROJECT_ID
+    - PHOTON_PROJECT_SECRET
+    - SMS_ALLOWED_USERS
+    - SMS_HOME_CHANNEL
+    - TELEGRAM_ALLOWED_USERS
+    - TELEGRAM_BOT_TOKEN
+    - TELEGRAM_HOME_CHANNEL
+    - TERMINAL_ENV
+    - TERMINAL_LIFETIME_SECONDS
+    - TERMINAL_MODAL_IMAGE
+    - TERMINAL_TIMEOUT
+    - VISION_TOOLS_DEBUG
+    - WEB_TOOLS_DEBUG
+  container_cpu: 1
+  container_memory: 5120
+  container_disk: 51200
+  container_persistent: true
+  docker_mount_cwd_to_workspace: true
+  docker_volumes:
+    - 'C:\Users\faupe\Documents\BrainFiles:/brainfiles'
+  lifetime_seconds: 300
+web:
+  backend: nous
+browser:
+  inactivity_timeout: 120
+  allow_private_urls: true
+  use_real_profile: true
+  extension_control:
+    enabled: false
+  cloud_provider: local
+checkpoints:
+  enabled: true
+  max_snapshots: 30
+file_read_max_chars: 512000
+tool_output:
+  max_bytes: 300000
+  max_lines: 1000
+  max_line_length: 10000
+tool_loop_guardrails:
+  warnings_enabled: true
+  hard_stop_enabled: true
+  warn_after:
+    exact_failure: 2
+    same_tool_failure: 3
+    idempotent_no_progress: 2
+  hard_stop_after:
+    exact_failure: 5
+    same_tool_failure: 8
+    idempotent_no_progress: 5
+compression:
+  enabled: true
+  progress_notices: false
+  # 0,19 war gesetzt, weil das Kompressionsmodell nur 200k Fenster hatte. Es traegt
+  # jetzt 1.048.576, das Hauptmodell 1.000.000 - die Kompression setzt damit erst
+  # bei rund 700.000 Token ein, also am Ende des Fensters statt in dessen Mitte.
+  threshold: 0.5
+  target_ratio: 0.4
+  protect_last_n: 8
+  min_tail_user_messages: 1
+  max_attempts: 3
+  proactive_prune_tokens: 0
+  proactive_prune_min_result_chars: 8000
+  proactive_prune_min_reclaim_tokens: 4096
+  protect_first_n: 3
+  codex_gpt55_autoraise: true
+  codex_app_server_auto: native
+  codex_responses_native: false
+  idle_compact_after_seconds: 0
+prompt_caching:
+  # auto = 1h-Tier fuer alles, was ein Mensch tippt (cli, tui, desktop, Gateway),
+  # 5m fuer maschinell getaktete Quellen (subagent, cron, kanban, webhook).
+  # Der 1h-Schreibvorgang kostet 2x statt 1,25x - das zahlt sich hier aus, weil die
+  # Memory (302.068 Zeichen, rund 75.000 Token) bei JEDEM Turn mitgeschickt wird
+  # und ausserhalb des Caches teuer ist.
+  cache_ttl: auto
+auxiliary:
+  compression:
+    provider: nous
+    model: deepseek/deepseek-v4-flash-0731
+    timeout: 180
+  free_only: false
+  vision:
+    provider: nous
+    model: 'qwen/qwen3-vl-235b-a22b-instruct'
+  # Die folgenden Aufgaben sind Einzeiler. "auto" erbt das HAUPTmodell
+  # (inclusionai/ling-3.0-flash-fin:free) und zahlt pro Session mit. Umgestellt auf
+  # google/gemini-3.1-flash-lite (am 04.10.2026 am Nous-Endpoint gemessen: 1,4 s,
+  # sauberer Inhalt). kanban_decomposer braucht echtes JSON-Graf und laeuft auf
+  # inception/mercury-2.5 (1,7 s) - das ist der bestaetigte Triage-Schnellwert.
+  skills_hub:
+    provider: nous
+    model: nvidia/nemotron-3-ultra-550b-a55b
+  mcp:
+    provider: nous
+    model: meituan/longcat-2.5-preview:free
+  curator:
+    provider: nous
+    model: deepseek/deepseek-v4.1-flash
+  approval:
+    provider: nous
+    model: google/gemini-3.1-flash-lite
+  title_generation:
+    provider: nous
+    model: google/gemini-3.1-flash-lite
+  memory_query_rewrite:
+    provider: nous
+    model: google/gemini-3.1-flash-lite
+  kanban_decomposer:
+    provider: nous
+    model: inception/mercury-2.5
+  triage_specifier:
+    provider: nous
+    model: inception/mercury-2.5
+display:
+  compact: false
+  personality: helpful
+  busy_input_mode: steer
+  bell_on_complete: true
+  show_reasoning: true
+  background_process_notifications: concise
+  streaming: false
+  skin: default
+  language: ger
+  interim_assistant_messages: true
+  pet:
+    enabled: false
+    slug: gf-sd
+    scale: 0.33
+  busy_ack_detail: true
+  cleanup_progress: false
+  long_running_notifications: true
+  tool_progress: all
+  message_reactions: true
+  in_app_tips: false
+  in_app_tours: false
+dashboard:
+  theme: midnight
+  font: ibm-plex-mono
+tts:
+  provider: piper
+  edge:
+    voice: en-US-AriaNeural
+  gemini:
+    voice: Enceladus
+stt:
+  enabled: true
+  language: en
+  local:
+    model: large-v3
+    language: german
+  openai:
+    model: gpt-4o-mini-transcribe
+    language: ''
+  provider: local
+voice:
+  gpt_live:
+    instructions: german
+    voice: cinder
+  auto_tts: true
+  voice_chat_mode: chained
+context:
+  engine: compressor
+memory:
+  memory_enabled: true
+  user_profile_enabled: true
+  memory_char_limit: 550000
+  user_char_limit: 137500
+  nudge_interval: 10
+  provider: ''
+delegation:
+  model: meituan/longcat-2.5-preview:free
+  provider: nous
+  # Ein gepinntes Kind erbt die Haupt-Fallback-Kette NICHT - ohne eigene Liste hat
+  # ein Subagent keinen Rueckfall. Die alte Liste begann mit gemma-e4b-8k:cpu
+  # (8.192 Fenster) und mit dem toten Bonsai-Dienst.
+  fallback_providers:
+    - provider: nous
+      model: deepseek/deepseek-v4-flash-0731
+    - provider: anthropic
+      model: claude-opus-5
+    - provider: openrouter
+      model: openrouter/nvidia/nemotron-3-ultra-550b-a55b:free
+      base_url: http://127.0.0.1:20128/v1
+    - provider: openrouter
+      model: openrouter/nvidia/nemotron-3-super-120b-a12b:free
+      base_url: http://127.0.0.1:20128/v1
+    - provider: nous
+      model: google/gemini-3.1-flash-lite
+  max_iterations: 100
+  reasoning_effort: high
+  max_concurrent_children: 10
+  # 180 s war fuer ein grosses Denkmodell zu knapp: der Timeout startet bei JEDEM
+  # Fortschritt neu, ein lebender Subagent mit mehreren Werkzeugschritten wurde
+  # trotzdem abgeschnitten.
+  child_timeout_seconds: 600
+moa:
+  presets:
+    default:
+      # Berater (Stand 07.10.2026, in den Presets "default" und "Hermes Oktober 26"):
+      # ling-3.0-flash-fin:free, qwen3-235b-a22b-thinking-2507, longcat-2.5-preview:free,
+      # deepseek-v4-pro, nemotron-3.5-lightning:free - kostenpflichtig sind nur die
+      # Nous-Modelle deepseek-v4-pro und qwen3-235b-thinking (Fenster je Modell nicht neu gemessen).
+      reference_models:
+        - provider: nous
+          model: inclusionai/ling-3.0-flash-fin:free
+          enabled: true
+        - provider: nous
+          model: qwen/qwen3-235b-a22b-thinking-2507
+          enabled: true
+        - provider: nous
+          model: meituan/longcat-2.5-preview:free
+          enabled: true
+        - provider: nous
+          model: deepseek/deepseek-v4-pro
+          enabled: true
+        - provider: openrouter
+          model: nvidia/nemotron-3.5-lightning:free
+          enabled: true
+      # Der Aggregator IST das handelnde Modell: er laeuft in jedem Werkzeugschritt
+      # und traegt fast die ganzen Kosten. Deshalb inclusionai/ling-3.0-flash-fin:free (= Hauptmodell) -
+      # nicht der guenstigste Berater.
+      aggregator:
+        provider: nous
+        model: inclusionai/ling-3.0-flash-fin:free
+      degraded_reference_policy: loud
+      fanout: user_turn
+      enabled: true
+    Max:
+      enabled: false
+      reference_models:
+        - provider: omniroute
+          model: auto
+          enabled: true
+        - provider: custom:deepseek
+          model: auto/best-chat
+          enabled: true
+        - provider: ollama-launch
+          model: gemma-e4b-8k:latest
+          enabled: true
+      aggregator:
+        provider: omniroute
+        model: auto
+      degraded_reference_policy: loud
+      fanout: user_turn
+    Max 2:
+      enabled: false
+      reference_models:
+        - provider: nous
+          model: deepseek/deepseek-v4.1-flash
+          enabled: true
+        - provider: nous
+          model: openai/gpt-5.6-sol
+          enabled: true
+        - provider: nous
+          model: openai/gpt-6-astra
+          enabled: true
+        - provider: anthropic
+          model: claude-opus-5
+          enabled: true
+        - provider: nous
+          model: deepseek/deepseek-v4-pro-0813
+          enabled: true
+      aggregator:
+        provider: nous
+        model: meituan/longcat-2.5-preview:free
+      degraded_reference_policy: loud
+      fanout: user_turn
+    Vision:
+      enabled: true
+      reference_models:
+        - provider: nous
+          model: deepseek/deepseek-v4.1-flash
+          enabled: true
+        - provider: anthropic
+          model: claude-opus-5
+          enabled: true
+        - provider: nous
+          model: openai/gpt-6-astra
+          enabled: true
+        - provider: nous
+          model: deepseek/deepseek-v4-pro-0813
+          enabled: true
+        - provider: nous
+          model: qwen/qwen3-vl-32b-instruct
+          enabled: true
+      aggregator:
+        provider: nous
+        model: meituan/longcat-2.5-preview:free
+      degraded_reference_policy: loud
+      fanout: user_turn
+    Hermes Oktober 26:
+      enabled: true
+      reference_models:
+        - provider: nous
+          model: nvidia/nemotron-3-ultra-550b-a55b
+          enabled: true
+        - provider: nous
+          model: qwen/qwen3-235b-a22b-thinking-2507
+          enabled: true
+        - provider: nous
+          model: meituan/longcat-2.5-preview:free
+          enabled: true
+        - provider: nous
+          model: deepseek/deepseek-v4-pro
+          enabled: true
+        - provider: openrouter
+          model: nvidia/nemotron-3.5-lightning:free
+          enabled: true
+      aggregator:
+        provider: nous
+        model: google/gemma-4-26b-a4b-it
+      degraded_reference_policy: loud
+      fanout: user_turn
+  aggregator:
+    provider: nous
+    model: inclusionai/ling-3.0-flash-fin:free
+  degraded_reference_policy: loud
+  enabled: true
+  fanout: user_turn
+  reference_models:
+    - provider: nous
+      model: inclusionai/ling-3.0-flash-fin:free
+      enabled: true
+    - provider: nous
+      model: qwen/qwen3-235b-a22b-thinking-2507
+      enabled: true
+    - provider: nous
+      model: meituan/longcat-2.5-preview:free
+      enabled: true
+    - provider: nous
+      model: deepseek/deepseek-v4-pro
+      enabled: true
+    - provider: openrouter
+      model: nvidia/nemotron-3.5-lightning:free
+      enabled: true
+skills:
+  creation_nudge_interval: 15
+curator:
+  enabled: true
+  interval_hours: 168
+  consolidate: false
+timezone: Europe/Berlin
+approvals:
+  mode: smart
+  timeout: 300
+  deny: []
+  destructive_slash_confirm: false
+command_allowlist:
+  - delete in root path
+  - execute_code
+  - force kill processes (Stop-Process -Force)
+  - overwrite project env/config file
+  - script execution via -e/-c flag
+  - script execution via heredoc
+plugins:
+  enabled:
+    - a2a-platform
+    - crypto-prices
+    - disk-cleanup
+    - drain
+    - email-platform
+    - everything-claude-code
+    - homeassistant
+    - memory-wiki
+    - meta-ai-image-gen
+    - nous
+    - okx-a2a
+    - one-skill-to-rule-them-all
+    - rss-reader
+    - self-hosted
+  disabled: []
+security:
+  allow_private_urls: true
+kanban:
+  review_dispatch: true
+  orchestrator_profile: default
+  default_assignee: 'default'
+code_execution:
+  mode: project
+  max_tool_calls: 50
+  timeout: 300
+gateway:
+  multiplex_profiles: true
+  profile_routes:
+    - name: telegram-max
+      platform: telegram
+      chat_id: '7648512088'
+      profile: default
+      enabled: true
+    - name: gruppe-bots
+      platform: telegram
+      chat_id: '-1003980261765'
+      profile: bots
+      enabled: true
+    - name: gruppe-dispatch-1998
+      platform: telegram
+      chat_id: '-1003980261765'
+      thread_id: '1998'
+      profile: bots
+      enabled: true
+    - name: gruppe-handel-1999
+      platform: telegram
+      chat_id: '-1003980261765'
+      thread_id: '1999'
+      profile: jev-trader
+      enabled: true
+    - name: gruppe-auswertung-2000
+      platform: telegram
+      chat_id: '-1003980261765'
+      thread_id: '2000'
+      profile: recherche
+      enabled: true
+    - name: gruppe-wissen-2001
+      platform: telegram
+      chat_id: '-1003980261765'
+      thread_id: '2001'
+      profile: obsidian-skills
+      enabled: true
+    - name: gruppe-gbrain-2006
+      platform: telegram
+      chat_id: '-1003980261765'
+      thread_id: '2006'
+      profile: gbrain
+      enabled: true
+    - name: gruppe-wartung-723
+      platform: telegram
+      chat_id: '-1003980261765'
+      thread_id: '723'
+      profile: hermes-wartung
+      enabled: true
+  platforms:
+    a2a:
+      enabled: true
+      extra:
+        port: 9900
+streaming:
+  enabled: false
+sessions:
+  auto_archive: true
+  auto_archive_days: 2
+onboarding:
+  seen:
+    busy_input_prompt: true
+    tool_progress_prompt: true
+telemetry:
+  shared_metrics:
+    enabled: true
+    send: false
+updates:
+  pre_update_backup: quick
+  backup_keep: 5
+  non_interactive_local_changes: stash
+computer_use:
+  backend: cua
+proxy:
+  enabled: false
+desktop:
+  repo_scan_roots:
+    - 'C:\Users\faupe\documents\BrainFiles\Werkstatt'
+    - O:\Werkstatt
+  repo_scan_exclude_paths:
+    - C:\Users\faupe\documents\Github
+  font_family: IBM Plex Sans
+  # Deckel fuer den V8-Heap des Renderers. 0 = Chromium-Standard, und genau der hat
+  # am 13.09.2026 einen Rechner-weiten Freeze erzeugt; mit Deckel wird daraus ein
+  # begrenzter Renderer-Neustart. 4096 MB passt zu 64 GB RAM neben dem Gateway.
+  renderer_max_old_space_mb: 4096
+local_runtime:
+  enabled: true
+_config_version: 50
+a2a_agents:
+  omniroute:
+    auth:
+      token: ${OMNIROUTE_API_KEY}
+      type: bearer
+    capabilities:
+      - smart-routing
+      - quota-management
+      - provider-discovery
+      - cost-analysis
+      - health-report
+      - list-capabilities
+    timeout: 120
+    url: http://127.0.0.1:20128/a2a
+  hermes-mcp:
+    url: http://127.0.0.1:9900/a2a
+    timeout: 120
+    capabilities:
+      - a2a
+      - browser
+      - terminal
+      - memory
+      - skills
+    auth:
+      type: bearer
+      token: ${HERMES_A2A_TOKEN}
+  '8741749061':
+    url: http://127.0.0.1:9900/
+    auth:
+      type: bearer
+      token: ${HERMES_A2A_TOKEN}
+custom_providers: []
+group_sessions_per_user: true
+image_gen:
+  provider: nous
+known_builtin_toolsets:
+  cli:
+    - browser
+    - clarify
+    - code_execution
+    - computer_use
+    - connections
+    - context_engine
+    - cronjob
+    - delegation
+    - discord
+    - discord_admin
+    - file
+    - homeassistant
+    - image_gen
+    - kanban
+    - memory
+    - session_search
+    - skills
+    - spotify
+    - stt
+    - terminal
+    - todo
+    - tts
+    - video
+    - video_gen
+    - vision
+    - web
+    - x_search
+    - yuanbao
+  telegram:
+    - browser
+    - clarify
+    - code_execution
+    - computer_use
+    - connections
+    - context_engine
+    - cronjob
+    - delegation
+    - discord
+    - discord_admin
+    - file
+    - homeassistant
+    - image_gen
+    - memory
+    - session_search
+    - skills
+    - spotify
+    - stt
+    - terminal
+    - todo
+    - tts
+    - video
+    - video_gen
+    - vision
+    - web
+    - x_search
+    - yuanbao
+known_plugin_toolsets:
+  cli:
+    - a2a
+    - homeassistant
+    - spotify
+  telegram:
+    - a2a
+    - homeassistant
+    - spotify
+  acp:
+    - homeassistant
+  webhook:
+    - homeassistant
+mcp_servers:
+  affinity:
+    args:
+      - C:\Users\faupe\Documents\BrainFiles\Agenten\MCP-Server\ant.dir.gh.canva.affinity\server\index.js
+    command: node
+    env:
+      SSE_URL: http://localhost:6767/sse
+    enabled: false
+  archiv:
+    args:
+      - C:\Users\faupe\Documents\BrainFiles\Agenten\MCP-Server\archiv\archiv_mcp.py
+    command: C:\Users\faupe\Documents\BrainFiles\Agenten\MCP-Server\archiv\.venv\Scripts\python.exe
+    cwd: C:\Users\faupe\Documents\BrainFiles\Agenten\MCP-Server\archiv
+  blender:
+    args:
+      - -c
+      - from blmcp import main; main()
+    command: C:\Users\faupe\Documents\BrainFiles\Agenten\MCP-Server\ant.dir.gh.blender.blender-mcp\.venv\Scripts\python.exe
+    enabled: false
+  desktop-commander:
+    args:
+      - C:\Users\faupe\Documents\BrainFiles\Agenten\MCP-Server\ant.dir.gh.wonderwhy-er.desktopcommandermcp\dist\index.js
+    command: node
+    env:
+      MCP_DXT: "true"
+      NODE_ENV: production
+    cwd: C:\Users\faupe\Documents\BrainFiles\Agenten\MCP-Server\ant.dir.gh.wonderwhy-er.desktopcommandermcp
+  kraken:
+    args:
+      - C:\Users\faupe\Documents\BrainFiles\Agenten\MCP-Server\kraken\kraken_mcp.py
+    command: C:\Users\faupe\Documents\BrainFiles\Agenten\MCP-Server\kraken\.venv\Scripts\python.exe
+    cwd: C:\Users\faupe\Documents\BrainFiles\Agenten\MCP-Server\kraken
+  kraken-papier:
+    args:
+      - mcp
+    command: O:\Werkstatt\Repos\kraken-cli\target\release\kraken.exe
+  mail:
+    args:
+      - C:\Users\faupe\Documents\BrainFiles\Agenten\MCP-Server\mail\mail_mcp.py
+    command: C:\Users\faupe\Documents\BrainFiles\Agenten\MCP-Server\mail\.venv\Scripts\python.exe
+  okx-agentkit:
+    command: C:\Users\faupe\Documents\BrainFiles\Agenten\MCP-Server\okx-agentkit\start-demo.cmd
+    args:
+      - --read-only
+    enabled: true
+  pdf-vault:
+    args:
+      - C:\Users\faupe\Documents\BrainFiles\Agenten\MCP-Server\ant.dir.gh.anthropic.pdf-server-mcp\dist\index.js
+      - --stdio
+      - C:\Users\faupe\Documents\BrainFiles\MaxHirn\Claude
+    command: node
+  revolut-x:
+    args:
+      - C:\Users\faupe\Documents\BrainFiles\Agenten\MCP-Server\ant.dir.gh.revolut-engineering.revolut-x-api\dist\index.js
+    command: node
+    enabled: false
+  tooluniverse:
+    args:
+      - C:\Users\faupe\Documents\BrainFiles\Agenten\MCP-Server\ant.dir.gh.tooluniverse.tooluniverse-mcp\src\run_stdio.py
+    command: C:\Users\faupe\Documents\BrainFiles\Agenten\MCP-Server\ant.dir.gh.tooluniverse.tooluniverse-mcp\.venv\Scripts\python.exe
+    env:
+      PYTHONIOENCODING: utf-8
+      PYTHONPATH: C:\Users\faupe\Documents\BrainFiles\Agenten\MCP-Server\ant.dir.gh.tooluniverse.tooluniverse-mcp\src
+      TOOLUNIVERSE_STDIO_MODE: '1'
+    cwd: C:\Users\faupe\Documents\BrainFiles\Agenten\MCP-Server\ant.dir.gh.tooluniverse.tooluniverse-mcp
+  windows-mcp:
+    args:
+      - -c
+      - from windows_mcp.__main__ import main; main()
+    command: C:\Users\faupe\Documents\BrainFiles\Agenten\MCP-Server\ant.dir.cursortouch.windows-mcp\.venv\Scripts\python.exe
+    env:
+      ANONYMIZED_TELEMETRY: "false"
+      MODE: local
+      WINDOWS_MCP_DEBUG: "false"
+      WINDOWS_MCP_PROFILE_SNAPSHOT: "true"
+      WINDOWS_MCP_SCREENSHOT_BACKEND: auto
+  projectatlas:
+    command: C:\Users\faupe\Documents\BrainFiles\Agenten\Werkzeuge\projectatlas\bin\projectatlas.exe
+    args:
+      - --require-version
+      - 0.4.5
+      - --db
+      - C:\Users\faupe\Documents\BrainFiles\Werkstatt\omnitrade\.projectatlas\projectatlas.db
+      - --config
+      - C:\Users\faupe\Documents\BrainFiles\Werkstatt\omnitrade\.projectatlas\config.toml
+      - mcp
+    enabled: true
+  gitlab:
+    url: https://gitlab.com/api/v4/mcp
+    auth: oauth
+    enabled: false
+    tools:
+      exclude:
+        - get_mcp_server_version
+        - list_duo_sessions
+  airtable:
+    url: https://mcp.airtable.com/mcp
+    auth: oauth
+    enabled: false
+  MCP_DOCKER:
+    command: docker
+    args:
+      - mcp
+      - gateway
+      - run
+      - --profile
+      - max_2_docker
+    env:
+      LOCALAPPDATA: C:\Users\faupe\AppData\Local
+      ProgramData: C:\ProgramData
+      ProgramFiles: C:\Program Files
+  deepwiki:
+    url: https://mcp.deepwiki.com/mcp
+    enabled: false
+  buildkite:
+    url: https://mcp.buildkite.com/mcp
+    auth: oauth
+    enabled: false
+    tools:
+      exclude:
+        - access_token
+        - get_job_env
+  circleci:
+    url: https://mcp.circleci.com/v1/mcp
+    auth: oauth
+    enabled: false
+    tools:
+      exclude:
+        - hello
+        - download_usage_data
+  algolia:
+    url: https://mcp.algolia.com/mcp
+    auth: oauth
+    enabled: false
+  postman:
+    url: https://mcp.postman.com/minimal
+    auth: oauth
+    enabled: false
+platform_toolsets:
+  cli:
+    - a2a
+    - browser
+    - clarify
+    - code_execution
+    - computer_use
+    - connections
+    - context_engine
+    - cronjob
+    - delegation
+    - file
+    - image_gen
+    - kanban
+    - memory
+    - session_search
+    - skills
+    - terminal
+    - todo
+    - tts
+    - video
+    - vision
+    - web
+  discord:
+    - hermes-discord
+    - a2a
+  google_chat:
+    - hermes-google_chat
+    - a2a
+  homeassistant:
+    - hermes-homeassistant
+    - a2a
+  qqbot:
+    - hermes-qqbot
+    - a2a
+  signal:
+    - hermes-signal
+    - a2a
+  slack:
+    - hermes-slack
+    - a2a
+  teams:
+    - hermes-teams
+    - a2a
+  telegram:
+    - a2a
+    - browser
+    - clarify
+    - code_execution
+    - computer_use
+    - connections
+    - context_engine
+    - cronjob
+    - delegation
+    - file
+    - image_gen
+    - memory
+    - session_search
+    - skills
+    - terminal
+    - todo
+    - tts
+    - video
+    - vision
+    - web
+  whatsapp:
+    - hermes-whatsapp
+    - a2a
+  yuanbao:
+    - hermes-yuanbao
+    - a2a
+session_reset:
+  at_hour: 4
+  idle_minutes: 1440
+  mode: none
+video_gen:
+  provider: nous
+platforms:
+  webhook:
+    enabled: true
+  telegram:
+    enabled: true
+    extra:
+      dm_topics:
+        - chat_id: '7648512088'
+          topics:
+            - name: Allgemein
+              icon_color: 7322096
+              thread_id: 32025
+            - name: Handel
+              icon_color: 9367192
+              skill: brainfiles/fremdrepos-signal
+              thread_id: 32027
+            - name: Markt
+              icon_color: 16766590
+              thread_id: 32029
+            - name: Wissen
+              icon_color: 13338331
+              thread_id: 32031
+cron:
+  catch_up_missed: false
+_left_core_scoped:
+  - homeassistant
+_left_core_installed:
+  - homeassistant
