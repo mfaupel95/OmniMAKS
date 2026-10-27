@@ -1,0 +1,394 @@
+{
+  "_zweck": "Zuordnung der Trading-Agenten aus Werkstatt/Repos/moon-dev-ai-agents zu Freqtrade-Bots. Ein Eintrag unter 'bots' ist ein startbarer Bot; ein Eintrag unter 'nicht_portierbar' ist eine Absage MIT Grund. Diese Tabelle ist die Wahrheit - wer einen Agenten vermisst, findet ihn hier wieder.",
+  "_stand": "2026-10-10",
+  "_regel": "Freqtrade sieht ausschliesslich OHLCV-Kerzen des gehandelten Paares - plus, im Futures-Modus, die Funding-Rate und den Mark-Preis (beide laedt `download-data --trading-mode futures` als eigene Reihen mit). Portierbar ist deshalb genau das, was sich aus der Kerze ODER aus diesen beiden Reihen rechnen laesst. Alles andere braucht eine Fremdquelle, die im Haus archiviert sein muss - was nicht archiviert wurde, ist fuer einen Ruecklauf verloren (Zwangsschluesse zum Beispiel).",
+  "_basis_geometrie": "Stop und Ziel kommen NICHT aus dem Bot-Repo, sondern aus den Haus-Zahlen der Feed-Spuren (Agenten/Handel/moondev_*/wachen.json): stop_prozent 6.0-8.0 und ziel_r_vielfaches 1.5. Ein Bot erbt die Zahlen der Regel, die er abbildet.",
+
+  "bots": [
+    {
+      "name": "trading-agent",
+      "container": "freqtrade-trading-agent",
+      "strategie": "MoonDevTradingAgent",
+      "port": 8081,
+      "zeitrahmen": "1h",
+      "max_open_trades": 3,
+      "stop_prozent": 6.0,
+      "quelle": "src/agents/trading_agent.py",
+      "regel": "MA20/MA40-Trend, RSI14 im Band 45-70, Volumen zieht an, Kurs ueber dem Stand von vor 24h.",
+      "whitelist": [
+        "BTC/USDT", "ETH/USDT", "SOL/USDT", "BNB/USDT", "XRP/USDT", "ADA/USDT",
+        "DOGE/USDT", "AVAX/USDT", "LINK/USDT", "DOT/USDT", "LTC/USDT", "ATOM/USDT"
+      ],
+      "beschreibung": "Kern-Agent: die vier Kriterien des Original-Prompts, deterministisch gerechnet. Das Sprachmodell faellt weg, weil es nichts hinzufuegt."
+    },
+    {
+      "name": "topmovers",
+      "container": "freqtrade-topmovers",
+      "strategie": "MoonDevTopMovers",
+      "port": 8082,
+      "zeitrahmen": "1h",
+      "max_open_trades": 3,
+      "stop_prozent": 8.0,
+      "quelle": "src/agents/new_or_top_agent.py",
+      "regel": "24h-Aenderung zwischen +8 % und +40 %, mindestens 20 Mio USD Tagesvolumen.",
+      "whitelist": [
+        "BTC/USDT", "ETH/USDT", "SOL/USDT", "BNB/USDT", "XRP/USDT", "ADA/USDT",
+        "DOGE/USDT", "AVAX/USDT", "LINK/USDT", "DOT/USDT", "LTC/USDT", "ATOM/USDT",
+        "NEAR/USDT", "UNI/USDT", "ARB/USDT", "OP/USDT", "INJ/USDT", "SUI/USDT",
+        "APT/USDT", "FIL/USDT", "SEI/USDT", "TIA/USDT", "PEPE/USDT", "WIF/USDT"
+      ],
+      "beschreibung": "Momentum-Jagd im Band. Der Suchraum ist kleiner als beim Original (CoinGecko Top 250) - er ist die liquideste Boersenauswahl, nicht ein Marktranking."
+    },
+    {
+      "name": "marktlage-regime",
+      "container": "freqtrade-marktlage-regime",
+      "strategie": "MoonDevMarketRegime",
+      "port": 8083,
+      "zeitrahmen": "1h",
+      "max_open_trades": 1,
+      "stop_prozent": 6.0,
+      "quelle": "src/agents/coingecko_agent.py",
+      "regel": "BTC 24h mindestens +2 % UND mindestens 60 % der Messlatte im Plus.",
+      "whitelist": ["BTC/USDT"],
+      "breite_paare": [
+        "BTC/USDT", "ETH/USDT", "SOL/USDT", "BNB/USDT", "XRP/USDT", "ADA/USDT",
+        "DOGE/USDT", "AVAX/USDT", "LINK/USDT", "DOT/USDT", "LTC/USDT", "ATOM/USDT"
+      ],
+      "beschreibung": "Regime aus Leitkurs und Marktbreite. Die Breite kommt aus Boersenpaaren (informative Paare), nicht aus einem Marktranglisten-Abo. EIN Platz: das Signal ist EINE Marktlage-Wette."
+    },
+    {
+      "name": "klassik-sma",
+      "container": "freqtrade-klassik-sma",
+      "strategie": "HausSpur",
+      "hausspur": "klassik_sma",
+      "port": 8084,
+      "zeitrahmen": "4h",
+      "max_open_trades": 3,
+      "quelle": "Agenten/Handel/klassik_regeln.py (REGELN)",
+      "regel": "Haus-Regel der Spur klassik_sma, importiert ueber Agenten/Handel/hausspur_regeln.py.",
+      "whitelist": ["BTC/USDT:USDT", "ETH/USDT:USDT", "SOL/USDT:USDT", "BNB/USDT:USDT", "XRP/USDT:USDT", "DOGE/USDT:USDT", "ADA/USDT:USDT", "AVAX/USDT:USDT", "LINK/USDT:USDT", "LTC/USDT:USDT"],
+      "_whitelist_vermerk": "11.10.2026 Auftrag Max (Handelsfrequenz zu niedrig): 3 -> 10 Paare. Zurueck: nur BTC/ETH/SOL.",
+      "beschreibung": "Haus-Spur als Dry-Run-Bot (Auftrag Max 10.10.2026: Breite). Futures, Hebel 1."
+    },
+    {
+      "name": "klassik-ema",
+      "container": "freqtrade-klassik-ema",
+      "strategie": "HausSpur",
+      "hausspur": "klassik_ema",
+      "port": 8085,
+      "zeitrahmen": "4h",
+      "max_open_trades": 3,
+      "quelle": "Agenten/Handel/klassik_regeln.py (REGELN)",
+      "regel": "Haus-Regel der Spur klassik_ema, importiert ueber Agenten/Handel/hausspur_regeln.py.",
+      "whitelist": ["BTC/USDT:USDT", "ETH/USDT:USDT", "SOL/USDT:USDT", "BNB/USDT:USDT", "XRP/USDT:USDT", "DOGE/USDT:USDT", "ADA/USDT:USDT", "AVAX/USDT:USDT", "LINK/USDT:USDT", "LTC/USDT:USDT"],
+      "_whitelist_vermerk": "11.10.2026 Auftrag Max (Handelsfrequenz zu niedrig): 3 -> 10 Paare. Zurueck: nur BTC/ETH/SOL.",
+      "beschreibung": "Haus-Spur als Dry-Run-Bot (Auftrag Max 10.10.2026: Breite). Futures, Hebel 1."
+    },
+    {
+      "name": "klassik-macd",
+      "container": "freqtrade-klassik-macd",
+      "strategie": "HausSpur",
+      "hausspur": "klassik_macd",
+      "port": 8086,
+      "zeitrahmen": "4h",
+      "max_open_trades": 3,
+      "quelle": "Agenten/Handel/klassik_regeln.py (REGELN)",
+      "regel": "Haus-Regel der Spur klassik_macd, importiert ueber Agenten/Handel/hausspur_regeln.py.",
+      "whitelist": ["BTC/USDT:USDT", "ETH/USDT:USDT", "SOL/USDT:USDT", "BNB/USDT:USDT", "XRP/USDT:USDT", "DOGE/USDT:USDT", "ADA/USDT:USDT", "AVAX/USDT:USDT", "LINK/USDT:USDT", "LTC/USDT:USDT"],
+      "_whitelist_vermerk": "11.10.2026 Auftrag Max (Handelsfrequenz zu niedrig): 3 -> 10 Paare. Zurueck: nur BTC/ETH/SOL.",
+      "beschreibung": "Haus-Spur als Dry-Run-Bot (Auftrag Max 10.10.2026: Breite). Futures, Hebel 1."
+    },
+    {
+      "name": "klassik-bollinger",
+      "container": "freqtrade-klassik-bollinger",
+      "strategie": "HausSpur",
+      "hausspur": "klassik_bollinger",
+      "port": 8087,
+      "zeitrahmen": "4h",
+      "max_open_trades": 3,
+      "quelle": "Agenten/Handel/klassik_regeln.py (REGELN)",
+      "regel": "Haus-Regel der Spur klassik_bollinger, importiert ueber Agenten/Handel/hausspur_regeln.py.",
+      "whitelist": ["BTC/USDT:USDT", "ETH/USDT:USDT", "SOL/USDT:USDT", "BNB/USDT:USDT", "XRP/USDT:USDT", "DOGE/USDT:USDT", "ADA/USDT:USDT", "AVAX/USDT:USDT", "LINK/USDT:USDT", "LTC/USDT:USDT"],
+      "_whitelist_vermerk": "11.10.2026 Auftrag Max (Handelsfrequenz zu niedrig): 3 -> 10 Paare. Zurueck: nur BTC/ETH/SOL.",
+      "beschreibung": "Haus-Spur als Dry-Run-Bot (Auftrag Max 10.10.2026: Breite). Futures, Hebel 1."
+    },
+    {
+      "name": "klassik-donchian",
+      "container": "freqtrade-klassik-donchian",
+      "strategie": "HausSpur",
+      "hausspur": "klassik_donchian",
+      "port": 8088,
+      "zeitrahmen": "4h",
+      "max_open_trades": 3,
+      "quelle": "Agenten/Handel/klassik_regeln.py (REGELN)",
+      "regel": "Haus-Regel der Spur klassik_donchian, importiert ueber Agenten/Handel/hausspur_regeln.py.",
+      "whitelist": ["BTC/USDT:USDT", "ETH/USDT:USDT", "SOL/USDT:USDT", "BNB/USDT:USDT", "XRP/USDT:USDT", "DOGE/USDT:USDT", "ADA/USDT:USDT", "AVAX/USDT:USDT", "LINK/USDT:USDT", "LTC/USDT:USDT"],
+      "_whitelist_vermerk": "11.10.2026 Auftrag Max (Handelsfrequenz zu niedrig): 3 -> 10 Paare. Zurueck: nur BTC/ETH/SOL.",
+      "beschreibung": "Haus-Spur als Dry-Run-Bot (Auftrag Max 10.10.2026: Breite). Futures, Hebel 1."
+    },
+    {
+      "name": "klassik-rsi",
+      "container": "freqtrade-klassik-rsi",
+      "strategie": "HausSpur",
+      "hausspur": "klassik_rsi",
+      "port": 8089,
+      "zeitrahmen": "4h",
+      "max_open_trades": 3,
+      "quelle": "Agenten/Handel/klassik_regeln.py (REGELN)",
+      "regel": "Haus-Regel der Spur klassik_rsi, importiert ueber Agenten/Handel/hausspur_regeln.py.",
+      "whitelist": ["BTC/USDT:USDT", "ETH/USDT:USDT", "SOL/USDT:USDT", "BNB/USDT:USDT", "XRP/USDT:USDT", "DOGE/USDT:USDT", "ADA/USDT:USDT", "AVAX/USDT:USDT", "LINK/USDT:USDT", "LTC/USDT:USDT"],
+      "_whitelist_vermerk": "11.10.2026 Auftrag Max (Handelsfrequenz zu niedrig): 3 -> 10 Paare. Zurueck: nur BTC/ETH/SOL.",
+      "beschreibung": "Haus-Spur als Dry-Run-Bot (Auftrag Max 10.10.2026: Breite). Futures, Hebel 1."
+    },
+    {
+      "name": "klassik-rsi2",
+      "container": "freqtrade-klassik-rsi2",
+      "strategie": "HausSpur",
+      "hausspur": "klassik_rsi2",
+      "port": 8090,
+      "zeitrahmen": "4h",
+      "max_open_trades": 3,
+      "quelle": "Agenten/Handel/klassik_regeln.py (REGELN)",
+      "regel": "Haus-Regel der Spur klassik_rsi2, importiert ueber Agenten/Handel/hausspur_regeln.py.",
+      "whitelist": ["BTC/USDT:USDT", "ETH/USDT:USDT", "SOL/USDT:USDT", "BNB/USDT:USDT", "XRP/USDT:USDT", "DOGE/USDT:USDT", "ADA/USDT:USDT", "AVAX/USDT:USDT", "LINK/USDT:USDT", "LTC/USDT:USDT"],
+      "_whitelist_vermerk": "11.10.2026 Auftrag Max (Handelsfrequenz zu niedrig): 3 -> 10 Paare. Zurueck: nur BTC/ETH/SOL.",
+      "beschreibung": "Haus-Spur als Dry-Run-Bot (Auftrag Max 10.10.2026: Breite). Futures, Hebel 1."
+    },
+    {
+      "name": "klassik-donchian-trend",
+      "container": "freqtrade-klassik-donchian-trend",
+      "strategie": "HausSpur",
+      "hausspur": "klassik_donchian_trend",
+      "port": 8091,
+      "zeitrahmen": "4h",
+      "max_open_trades": 3,
+      "quelle": "Agenten/Handel/klassik_regeln.py (REGELN)",
+      "regel": "Haus-Regel der Spur klassik_donchian_trend, importiert ueber Agenten/Handel/hausspur_regeln.py.",
+      "whitelist": ["BTC/USDT:USDT", "ETH/USDT:USDT", "SOL/USDT:USDT", "BNB/USDT:USDT", "XRP/USDT:USDT", "DOGE/USDT:USDT", "ADA/USDT:USDT", "AVAX/USDT:USDT", "LINK/USDT:USDT", "LTC/USDT:USDT"],
+      "_whitelist_vermerk": "11.10.2026 Auftrag Max (Handelsfrequenz zu niedrig): 3 -> 10 Paare. Zurueck: nur BTC/ETH/SOL.",
+      "beschreibung": "Haus-Spur als Dry-Run-Bot (Auftrag Max 10.10.2026: Breite). Futures, Hebel 1."
+    },
+    {
+      "name": "klassik-sr-breaks",
+      "container": "freqtrade-klassik-sr-breaks",
+      "strategie": "HausSpur",
+      "hausspur": "klassik_sr_breaks",
+      "port": 8092,
+      "zeitrahmen": "4h",
+      "max_open_trades": 3,
+      "quelle": "Agenten/Handel/klassik_regeln.py (REGELN)",
+      "regel": "Haus-Regel der Spur klassik_sr_breaks, importiert ueber Agenten/Handel/hausspur_regeln.py.",
+      "whitelist": ["BTC/USDT:USDT", "ETH/USDT:USDT", "SOL/USDT:USDT", "BNB/USDT:USDT", "XRP/USDT:USDT", "DOGE/USDT:USDT", "ADA/USDT:USDT", "AVAX/USDT:USDT", "LINK/USDT:USDT", "LTC/USDT:USDT"],
+      "_whitelist_vermerk": "11.10.2026 Auftrag Max (Handelsfrequenz zu niedrig): 3 -> 10 Paare. Zurueck: nur BTC/ETH/SOL.",
+      "beschreibung": "Haus-Spur als Dry-Run-Bot (Auftrag Max 10.10.2026: Breite). Futures, Hebel 1."
+    },
+    {
+      "name": "klassik-pmax",
+      "container": "freqtrade-klassik-pmax",
+      "strategie": "HausSpur",
+      "hausspur": "klassik_pmax",
+      "port": 8093,
+      "zeitrahmen": "4h",
+      "max_open_trades": 3,
+      "quelle": "Agenten/Handel/klassik_regeln.py (REGELN)",
+      "regel": "Haus-Regel der Spur klassik_pmax, importiert ueber Agenten/Handel/hausspur_regeln.py.",
+      "whitelist": ["BTC/USDT:USDT", "ETH/USDT:USDT", "SOL/USDT:USDT", "BNB/USDT:USDT", "XRP/USDT:USDT", "DOGE/USDT:USDT", "ADA/USDT:USDT", "AVAX/USDT:USDT", "LINK/USDT:USDT", "LTC/USDT:USDT"],
+      "_whitelist_vermerk": "11.10.2026 Auftrag Max (Handelsfrequenz zu niedrig): 3 -> 10 Paare. Zurueck: nur BTC/ETH/SOL.",
+      "beschreibung": "Haus-Spur als Dry-Run-Bot (Auftrag Max 10.10.2026: Breite). Futures, Hebel 1."
+    },
+    {
+      "name": "klassik-supertrend",
+      "container": "freqtrade-klassik-supertrend",
+      "strategie": "HausSpur",
+      "hausspur": "klassik_supertrend",
+      "port": 8094,
+      "zeitrahmen": "4h",
+      "max_open_trades": 3,
+      "quelle": "Agenten/Handel/klassik_regeln.py (REGELN)",
+      "regel": "Haus-Regel der Spur klassik_supertrend, importiert ueber Agenten/Handel/hausspur_regeln.py.",
+      "whitelist": ["BTC/USDT:USDT", "ETH/USDT:USDT", "SOL/USDT:USDT", "BNB/USDT:USDT", "XRP/USDT:USDT", "DOGE/USDT:USDT", "ADA/USDT:USDT", "AVAX/USDT:USDT", "LINK/USDT:USDT", "LTC/USDT:USDT"],
+      "_whitelist_vermerk": "11.10.2026 Auftrag Max (Handelsfrequenz zu niedrig): 3 -> 10 Paare. Zurueck: nur BTC/ETH/SOL.",
+      "beschreibung": "Haus-Spur als Dry-Run-Bot (Auftrag Max 10.10.2026: Breite). Futures, Hebel 1."
+    },
+    {
+      "name": "macd-mtf",
+      "container": "freqtrade-macd-mtf",
+      "strategie": "HausSpur",
+      "hausspur": "macd_mtf",
+      "port": 8095,
+      "zeitrahmen": "1h",
+      "max_open_trades": 2,
+      "quelle": "Agenten/Handel/macd_mtf/handeln.py",
+      "regel": "Haus-Regel der Spur macd_mtf, importiert ueber Agenten/Handel/hausspur_regeln.py.",
+      "whitelist": ["BTC/USDT:USDT", "ETH/USDT:USDT"],
+      "beschreibung": "Haus-Spur als Dry-Run-Bot (Auftrag Max 10.10.2026: Breite). Futures, Hebel 1."
+    },
+    {
+      "name": "squeeze",
+      "container": "freqtrade-squeeze",
+      "strategie": "HausSpur",
+      "hausspur": "squeeze",
+      "port": 8096,
+      "zeitrahmen": "1h",
+      "max_open_trades": 3,
+      "quelle": "Agenten/Handel/squeeze/handeln.py",
+      "regel": "Haus-Regel der Spur squeeze, importiert ueber Agenten/Handel/hausspur_regeln.py.",
+      "whitelist": ["BTC/USDT:USDT", "ETH/USDT:USDT", "SOL/USDT:USDT", "BNB/USDT:USDT", "XRP/USDT:USDT", "DOGE/USDT:USDT", "ADA/USDT:USDT", "AVAX/USDT:USDT", "LINK/USDT:USDT", "LTC/USDT:USDT"],
+      "_whitelist_vermerk": "11.10.2026 Auftrag Max (Handelsfrequenz zu niedrig): 3 -> 10 Paare. Zurueck: nur BTC/ETH/SOL.",
+      "beschreibung": "Haus-Spur als Dry-Run-Bot (Auftrag Max 10.10.2026: Breite). Futures, Hebel 1."
+    },
+    {
+      "name": "wavetrend",
+      "container": "freqtrade-wavetrend",
+      "strategie": "HausSpur",
+      "hausspur": "wavetrend",
+      "port": 8097,
+      "zeitrahmen": "1h",
+      "max_open_trades": 3,
+      "quelle": "Agenten/Handel/wavetrend/handeln.py",
+      "regel": "Haus-Regel der Spur wavetrend, importiert ueber Agenten/Handel/hausspur_regeln.py.",
+      "whitelist": ["BTC/USDT:USDT", "ETH/USDT:USDT", "SOL/USDT:USDT", "BNB/USDT:USDT", "XRP/USDT:USDT", "DOGE/USDT:USDT", "ADA/USDT:USDT", "AVAX/USDT:USDT", "LINK/USDT:USDT", "LTC/USDT:USDT"],
+      "_whitelist_vermerk": "11.10.2026 Auftrag Max (Handelsfrequenz zu niedrig): 3 -> 10 Paare. Zurueck: nur BTC/ETH/SOL.",
+      "beschreibung": "Haus-Spur als Dry-Run-Bot (Auftrag Max 10.10.2026: Breite). Futures, Hebel 1."
+    },
+    {
+      "name": "supertrend",
+      "container": "freqtrade-supertrend",
+      "strategie": "HausSpur",
+      "hausspur": "supertrend",
+      "port": 8098,
+      "zeitrahmen": "4h",
+      "max_open_trades": 3,
+      "quelle": "Agenten/Handel/supertrend/handeln.py",
+      "regel": "Haus-Regel der Spur supertrend, importiert ueber Agenten/Handel/hausspur_regeln.py.",
+      "whitelist": ["BTC/USDT:USDT", "ETH/USDT:USDT", "SOL/USDT:USDT", "BNB/USDT:USDT", "XRP/USDT:USDT", "DOGE/USDT:USDT", "ADA/USDT:USDT", "AVAX/USDT:USDT", "LINK/USDT:USDT", "LTC/USDT:USDT"],
+      "_whitelist_vermerk": "11.10.2026 Auftrag Max (Handelsfrequenz zu niedrig): 3 -> 10 Paare. Zurueck: nur BTC/ETH/SOL.",
+      "beschreibung": "Haus-Spur als Dry-Run-Bot (Auftrag Max 10.10.2026: Breite). Futures, Hebel 1."
+    },
+    {
+      "name": "trendwende-btc",
+      "container": "freqtrade-trendwende-btc",
+      "strategie": "HausSpur",
+      "hausspur": "trendwende_btc",
+      "port": 8099,
+      "zeitrahmen": "1h",
+      "max_open_trades": 1,
+      "quelle": "Agenten/Handel/trendwende_btc/handeln.py",
+      "regel": "Haus-Regel der Spur trendwende_btc, importiert ueber Agenten/Handel/hausspur_regeln.py.",
+      "whitelist": ["BTC/USDT:USDT"],
+      "beschreibung": "Haus-Spur als Dry-Run-Bot (Auftrag Max 10.10.2026: Breite). Futures, Hebel 1."
+    },
+    {
+      "name": "orb",
+      "container": "freqtrade-orb",
+      "strategie": "HausSpur",
+      "hausspur": "orb",
+      "port": 8100,
+      "zeitrahmen": "15m",
+      "max_open_trades": 2,
+      "quelle": "Agenten/Handel/orb/handeln.py",
+      "regel": "Haus-Regel der Spur orb, importiert ueber Agenten/Handel/hausspur_regeln.py.",
+      "whitelist": ["BTC/USDT:USDT", "ETH/USDT:USDT"],
+      "beschreibung": "Haus-Spur als Dry-Run-Bot (Auftrag Max 10.10.2026: Breite). Futures, Hebel 1."
+    }
+  ],
+
+  "als_schutzschicht_portiert": [
+    {
+      "agent": "risk_agent.py",
+      "wo": "moondev_basis.py -> protections()",
+      "grund": "Kein Marktsignal, sondern Tore. Der Agent begrenzt Verlust und Gewinn in einem 12-h-Fenster (+/-25 USD, +/-5 %). Freqtrade hat dafuer StoplossGuard und MaxDrawdown - sie sind mit genau diesen Zahlen gesetzt, statt eine zweite Ratsche zu bauen."
+    }
+  ],
+
+  "nicht_portierbar": [
+    {
+      "agent": "funding_agent.py, fundingarb_agent.py",
+      "hindernis": "Fremddaten: Funding-Rate (Hyperliquid, stuendlich)",
+      "grund": "KEINE Datenfrage mehr, sondern eine Modusfrage (richtiggestellt 01.10.2026): der SPOT-Backtest von Freqtrade kennt keine Funding-Rate - sie steht in keiner Kerze. Im FUTURES-Backtest rechnet Freqtrade sie dagegen mit: `download-data --trading-mode futures` legt je Paar drei Reihen ab (OHLCV, `mark`, `funding_rate`), und jeder Trade traegt im Export ein Feld `funding_fees` (gemessen am 01.10.2026 an BTC/USDT:USDT: 2199 Funding-Ereignisse in zwei Jahren, Summe +10,56 %). Auch das Haus hat die Reihe seit dem 29.09.2026 (moondev_historie.py, sechs Instrumente; replay.lauf_c faehrt die Funding-Spur nach: 23 Runden, 74 % Treffer). Portierbar ist der Agent also - aber nur als Futures-Bot und nur auf Instrumenten, fuer die es eine Reihe gibt. Nicht portiert, weil nicht gemessen."
+    },
+    {
+      "agent": "whale_agent.py",
+      "hindernis": "Fremddaten: offenes Interesse (OKX /public/open-interest, /rubik/stat/contracts)",
+      "grund": "OI steht in keiner Kerze - aber eine HISTORIE gibt es (richtiggestellt 01.10.2026): OKX liefert sie oeffentlich unter /api/v5/rubik/stat/contracts/open-interest-volume mit ccy und period (1D und 1H gemessen; 180 Tageswerte, zurueck bis 05.04.2026). Sie ist AGGREGIERT je Coin, nicht je Kontrakt. Im Haus wird sie nur nicht archiviert: moondev_historie.py legt Preise und Funding ab, kein OI - deshalb fehlt die Reihe fuer einen Ruecklauf. Damit ist die Absage keine Datenfrage mehr, sondern ein Nachladen; die Haus-Spur moondev_whale liest dieselbe Kennzahl bereits zur Laufzeit."
+    },
+    {
+      "agent": "liquidation_agent.py",
+      "hindernis": "Fremddaten: Zwangsschluesse (OKX /public/liquidation-orders, neueste 100)",
+      "grund": "Die Absage BLEIBT, aber aus dem richtigen Grund (nachgemessen 01.10.2026): es gibt keine Historie. Der oeffentliche Endpunkt liefert nur das LAUFENDE Fenster - gemessen 100 Eintraege ueber 2,6 Stunden. Was nicht archiviert wurde, ist verloren; eine Reihe laesst sich nicht nachtraeglich beschaffen, ein Ruecklauf also nicht rechnen. Dieselbe Absage gilt fuer die Haus-Spur liq_wand (sie liest denselben Endpunkt zur Laufzeit)."
+    },
+    {
+      "agent": "sentiment_agent.py",
+      "hindernis": "Fremddaten: RSS-Schlagzeilen der Redaktionen",
+      "grund": "Ueberschriften stehen in keiner Kerze. Zusaetzlich sind Titel nicht reproduzierbar - derselbe Backtest haette morgen andere Eingaben."
+    },
+    {
+      "agent": "listingarb_agent.py",
+      "hindernis": "Fremddaten: neu gelistete Coins",
+      "grund": "Eine Neueinfuehrung ist ein Ereignis ausserhalb der Kursreihe. Zudem handelbar erst ab dem ersten Kerzenpaar - der Bot haette nichts zu lesen."
+    },
+    {
+      "agent": "chartanalysis_agent.py",
+      "hindernis": "Eingabe ist ein BILD (gerenderter Chart), kein Kerzensatz",
+      "grund": "Der Agent laesst ein Modell ein gemaltes Chartbild ansehen. Das ist eine Augenaufgabe; aus derselben Kerze gerechnet ergaebe es eine andere Regel, nicht dieselbe."
+    },
+    {
+      "agent": "rbi_agent.py, rbi_agent_v2.py, rbi_batch_backtester.py",
+      "hindernis": "KEIN Agent mit Handelsregel - ein Strategie-GENERATOR",
+      "grund": "RBI heisst Research-Backtest-Implement: ein Modell recherchiert eine Idee, schreibt daraus Strategiecode, laesst ihn laufen und bessert nach. Der Ausgang ist eine Strategie, keine Serie von Signalen. Genau diese Rolle fuellen im Haus Backtest, Hyperopt und Walk-Forward (Skill freqtrade-strategie) - ein RBI-Bot waere ein zweiter Weg zu demselben Ziel, mit einem Sprachmodell als Umweg."
+    },
+    {
+      "agent": "strategy_agent.py",
+      "hindernis": "META-Ebene: entscheidet EXECUTE/REJECT ueber Signale ANDERER Strategien",
+      "grund": "Braucht mehrere Strategien gleichzeitig. Freqtrade faehrt EINEN Bot mit EINER Strategie; ein Buendel waere eine neue, zusammengesetzte Strategie - und die waere erst sinnvoll, wenn die Einzelnen gemessen sind."
+    },
+    {
+      "agent": "sniper_agent.py, solana_agent.py, copybot_agent.py, tx_agent.py",
+      "hindernis": "andere Kette (Solana On-Chain)",
+      "grund": "Diese Agenten handeln Mints und Wallets, nicht Boersenpaare. Freqtrade ist ein Boersen-Bot. Die Haus-Spuren moondev_sniper und kopier decken dieselbe Absicht auf dem eigenen Weg ab."
+    },
+    {
+      "agent": "million_agent.py, chat_agent*.py, research_agent.py, focus_agent.py, compliance_agent.py, clean_ideas.py, code_runner_agent.py, demo_countdown.py, backtest_runner.py, backtest_start.py",
+      "hindernis": "kein Handelsentscheid",
+      "grund": "Werkzeuge, Textarbeit und Gedaechtnis - sie erzeugen keine Order."
+    },
+    {
+      "agent": "phone_agent.py, tiktok_agent.py, clips_agent.py, shortvid_agent.py, stream_agent.py, tweet_agent.py, coingecko_agent.py (Medienteil)",
+      "hindernis": "Medien und Veroeffentlichung",
+      "grund": "Kein Handelsentscheid."
+    },
+    {
+      "agent": "prophet_signal (Haus-Spur)",
+      "hindernis": "Prophet-Modell als eigene Abhaengigkeit",
+      "grund": "Die Spur rechnet eine Modellprognose, keine Kerzenregel; das Freqtrade-Image hat Prophet nicht, und ein Nachtrainieren je Kerze waere eine andere Rechnung als im Haus (Stand 10.10.2026)."
+    },
+    {
+      "agent": "iv_wand, iv_waelle (Haus-Spuren)",
+      "hindernis": "Fremddaten: implizite Volatilitaet",
+      "grund": "Freqtrade sieht nur Kerzen, Mark-Preis und Funding; die IV-Reihe ist keine davon."
+    },
+    {
+      "agent": "liq_wand (Haus-Spur)",
+      "hindernis": "Fremddaten: Zwangsschluesse",
+      "grund": "Wie liquidation_agent: die Reihe steht in keiner Kerze."
+    },
+    {
+      "agent": "gitter (Haus-Spur)",
+      "hindernis": "Gitterleiter statt Ein-/Ausstiegssignal",
+      "grund": "Eine Leiter mit vielen gleichzeitigen Stufen passt nicht in das Ein-Signal-je-Kerze-Modell von HausSpur."
+    },
+    {
+      "agent": "mosaic, xperp, kraken, omniquant (Haus-Spuren)",
+      "hindernis": "eigene Live-Pfade, keine uebertragbare Signalregel",
+      "grund": "Diese Spuren sind Ausfuehrungs- bzw. Mehrquellen-Systeme mit eigenem Orderpfad; es gibt keine einzelne einstieg(k, w)-Regel, die HausSpur importieren koennte."
+    }
+  ],
+
+  "_offen": [
+    "Kurze Seite: GEMESSEN am 01.10.2026 (T-198), nicht mehr nur festgestellt. Der Regime-Bot faehrt jetzt als MoonDevMarketRegimeFutures mit der belegten Short-Regel (-2 % und hoechstens 40 % der Messlatte, Spiegel der Haus-Regel); trading_agent und new_or_top_agent haben keine Short-Regel und bekommen auch keine. Zahlen 2 Jahre, Futures-Daten BTC/ETH/SOL/BNB/XRP/ADA/DOGE/AVAX/LINK/DOT/LTC/ATOM 1h, Gebuehr 0,05 % je Seite (Futures-Satz): nur lang 210 Runden -20,68 %, nur kurz 215 Runden -34,50 %, beide 425 Runden -48,13 %. Die kurze Seite erklaert den Verlust ALSO nicht - sie verdoppelt die Zahl der gebuehrenzahlenden Runden und macht das Ergebnis schlechter. Die Regel selbst ist spiegelbildlich uebertragen, nicht erfunden.",
+    "Frequenzbremse: GEBAUT und GEMESSEN am 01.10.2026 (T-197), aber ABSICHTLICH AUS (Vorgabe in frequenzbremse.py, wie beim Haus-Vorfilter). Sie senkt die Rundenzahl (2 Jahre, trading-agent: 2954 -> 2877 mit der vollen Bremse, 1942 bei 48 h Mindestabstand), aber NICHT den Verlust je Runde (-0,16 bis -0,21 % in JEDER Einstellung). Der Verlust ist die Gebuehr, und die Gebuehr haengt an der Zahl der Runden - eine Bremse kann eine Regel ohne Vorteil nicht tragfaehig machen, sie verkleinert nur den Schaden. Bei topmovers und marktlage-regime wurde das Ergebnis mit Bremse sogar schlechter (-46,0 -> -55,4 %; -37,2 -> -39,2 %). Wer sie einschalten will, setzt `moondev.bremse: true` in seiner Bot-Konfiguration; die Aufsaetze liegen in user_data/messung/.",
+    "trading_agent, whale_agent, liquidation_agent, sentiment_agent urteilen im Original per Sprachmodell. Hier ist die Regel deterministisch - das ist Absicht (nachrechenbar), aber es ist NICHT dasselbe Verfahren. Ein Vergleich waere eine eigene Messung.",
+    "Der SIGNAL-Ausstieg ist die eigentliche Frequenzquelle, nicht der Einstieg: mit signal_ausstieg=false fallen die Runden von 2954 auf 389 und der Verlust von -83,35 % auf -25,99 % (30.09.2026, 2 Jahre). Keine der beiden Fassungen ist positiv - aber wer an der Frequenz drehen will, muss dort ansetzen, nicht bei einer Einstiegssperre.",
+    "Futures halbiert die Gebuehr (0,05 % statt 0,10 % je Seite): derselbe Regime-Bot, dieselbe lange Seite, dieselben 210 Runden - Spot -37,24 %, Futures -20,68 %. Der groesste gemessene Hebel an diesen Bots ist der Kostensatz, nicht die Regel."
+  ]
+}
