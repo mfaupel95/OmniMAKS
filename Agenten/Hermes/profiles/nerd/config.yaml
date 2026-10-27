@@ -1,0 +1,40 @@
+model:
+  default: meituan/longcat-2.5-preview:free
+  provider: nous
+  base_url: https://inference-api.nousresearch.com/v1
+  api_mode: chat_completions
+plugins:
+  enabled: []
+_config_version: 51
+agent: {}
+terminal:
+  backend: local
+  cwd: C:\Users\faupe\Documents\BrainFiles\Werkstatt\claude-red
+providers:
+  llamacpp:
+    default_model: gemma-4-E4B-it-OBLITERATED-Q8_0
+    name: LLaMA.cpp
+    model: gemma-4-E4B-it-OBLITERATED-Q8_0
+    discover_models: true
+fallback_providers:
+  - provider: llamacpp
+    model: gemma-4-E4B-it-OBLITERATED-Q8_0
+  - provider: omniroute
+    model: auto/coding:free
+    base_url: http://localhost:20128/v1
+platforms:
+  photon:
+    enabled: false
+
+auxiliary:
+  compression:
+    provider: nous
+    model: deepseek/deepseek-v4-flash-0731
+    timeout: 180
+telemetry:
+  shared_metrics:
+    enabled: false
+    send: false
+onboarding:
+  seen:
+    tool_progress_prompt: true
