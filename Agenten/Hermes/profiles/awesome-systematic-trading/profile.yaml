@@ -1,0 +1,13 @@
+description: 'Referenzliste: Backtesting-Frameworks, Strategien mit Sharpe/t-Stat,
+  Buecher zu systematischem Trading (paperswithbacktest/awesome-systematic-trading,
+  nur Markdown, kein Code)'
+description_auto: false
+ui_meta:
+  hermes-bots:
+    groups:
+      - Grill Me, Awesome Systematic Trading, Agent Trade Kit, Harvard T
+    group: Grill Me, Awesome Systematic Trading, Agent Trade Kit, Harvard T
+    sectionId: sec-mvgqbvqt-tnilh
+    sectionName: AI TRADING
+_ui_meta_revisions:
+  hermes-bots: 2
