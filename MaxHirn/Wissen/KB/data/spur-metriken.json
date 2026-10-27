@@ -1,0 +1,61 @@
+{
+  "generiert_at": "2026-10-23T01:00:05.795068+00:00",
+  "spuren": {
+    "llm_stunde": {
+      "0": "2026-10-23",
+      "1": "llm_stunde",
+      "2": 0,
+      "3": 0,
+      "4": null,
+      "5": null,
+      "6": null,
+      "7": 0,
+      "8": null,
+      "profit_faktor_30d": null,
+      "max_drawdown_30d_pct": null,
+      "stop_ausloesung_rate_30d_pct": null
+    },
+    "omnitrade2": {
+      "0": "2026-10-23",
+      "1": "omnitrade2",
+      "2": 0,
+      "3": 0,
+      "4": null,
+      "5": null,
+      "6": null,
+      "7": 0,
+      "8": null,
+      "profit_faktor_30d": null,
+      "max_drawdown_30d_pct": null,
+      "stop_ausloesung_rate_30d_pct": null
+    },
+    "scanner": {
+      "0": "2026-10-23",
+      "1": "scanner",
+      "2": 2,
+      "3": 61,
+      "4": 0.0,
+      "5": 19.7,
+      "6": -2.58,
+      "7": 0,
+      "8": "2026-10-22T06:13:06.428420+00:00",
+      "profit_faktor_30d": 0.56,
+      "max_drawdown_30d_pct": 92.2,
+      "stop_ausloesung_rate_30d_pct": 51.0
+    },
+    "xperp": {
+      "0": "2026-10-23",
+      "1": "xperp",
+      "2": 27,
+      "3": 268,
+      "4": 33.3,
+      "5": 24.3,
+      "6": -1.32,
+      "7": 0,
+      "8": "2026-10-22T16:48:08.435618+00:00",
+      "profit_faktor_30d": 0.72,
+      "max_drawdown_30d_pct": 99.1,
+      "stop_ausloesung_rate_30d_pct": 67.9
+    }
+  }
+}
